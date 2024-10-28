@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:memorycare/src/app.dart';
 
+
+/// Função principal que inicia o aplicativo.
 void main() {
-  runApp(
-    const MaterialApp(
-      home: Center(
-        child: Text(
-          "Olá Mundo",
-          style: TextStyle(
-              fontSize: 50, backgroundColor: Colors.white, color: Colors.black),
-        ),
-      ),
-    ),
-  );
+  runApp(const MyApp()); // `MyApp` é a classe raiz do aplicativo.
 }
