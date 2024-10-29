@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memorycare/src/utils/themes/text_theme.dart';
+import 'package:memorycare/src/utils/themes/widget_themes/TTextFormFieldTheme.dart';
 import 'package:memorycare/src/utils/themes/widget_themes/elevated_button_theme.dart';
 import 'package:memorycare/src/utils/themes/widget_themes/outlined_button_theme.dart';
 
@@ -10,12 +11,14 @@ class TAppTheme {
     brightness: Brightness.light,
     textTheme: TTextTheme.lightTextTheme,
     outlinedButtonTheme: TOutlineButtonTheme.lightOutlinedButtonTheme,
-    elevatedButtonTheme: TElevatedButtonTheme.lightOutlinedButtonTheme
+    elevatedButtonTheme: TElevatedButtonTheme.lightOutlinedButtonTheme,
+    inputDecorationTheme: Ttextformfieldtheme.lightInputDecorationTheme
   );
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     textTheme: TTextTheme.darkTextTheme,
     outlinedButtonTheme: TOutlineButtonTheme.darkOutlineButtonTheme,
-    elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme
+    elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme,
+    inputDecorationTheme: Ttextformfieldtheme.darkInputDecorationTheme
   );
 }

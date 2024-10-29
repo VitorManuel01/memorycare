@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:memorycare/src/constants/image_strings.dart';
+import 'package:memorycare/src/views/registro/SignUpPage.dart';
 
 class LoginFooterWidget extends StatelessWidget {
   const LoginFooterWidget({
@@ -27,7 +29,7 @@ class LoginFooterWidget extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () => Get.to(()=> const Signuppage()),
           child: Text.rich(
             TextSpan(
               text: "Não tem uma conta?",

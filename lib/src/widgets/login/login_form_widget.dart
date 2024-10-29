@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memorycare/src/views/esqueci_a_senha/esqueci_a_senha_options/tela_esqueci_a_senha_opcoes.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -25,13 +26,12 @@ class LoginForm extends StatelessWidget {
           ),
           TextFormField(
             decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: Icon(Icons.lock_outline),
                 labelText: "Senha",
                 hintText: "Senha",
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
-                    onPressed: null,
-                    icon: Icon(Icons.remove_red_eye_sharp))),
+                    onPressed: null, icon: Icon(Icons.remove_red_eye_sharp))),
           ),
           const SizedBox(
             height: 10.0,
@@ -39,11 +39,14 @@ class LoginForm extends StatelessWidget {
           Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                  onPressed: () {}, child: const Text("Esqueci a Senha"))),
+                  onPressed: () {
+                    TelaEsqueciASenha.buildShowModalBottomSheet(context);
+                  },
+                  child: const Text("Esqueci a Senha"))),
           SizedBox(
-            width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {}, child: const Text("LOGIN")))
+              width: double.infinity,
+              child:
+                  ElevatedButton(onPressed: () {}, child: const Text("LOGIN")))
         ],
       ),
     ));
