@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/constants/image_strings.dart';
-import 'package:memorycare/src/views/LoginPage.dart';
+import 'package:memorycare/src/views/login/LoginPage.dart';
+import 'package:memorycare/src/views/registro/SignUpPage.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -15,8 +16,8 @@ class WelcomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDarkMode ? const Color(0XFF272727): Colors.greenAccent ,
-      // ignore: avoid_unnecessary_containers
       body: Container(
+        padding: const EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -35,11 +36,7 @@ class WelcomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal:
-                      20.0), // Ajuste a largura do padding conforme necessário
-              child: Row(
+             Row(
                 children: [
                   Expanded(
                       child: OutlinedButton(
@@ -49,10 +46,10 @@ class WelcomePage extends StatelessWidget {
                   ),
                   Expanded(
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text("REGISTRAR")))
+                          onPressed: () => Get.to(() => const Signuppage()), child: const Text("REGISTRAR")))
                 ],
               ),
-            ),
+
           ],
         ),
       ),

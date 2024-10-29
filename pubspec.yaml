@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.2.1
   get: ^4.6.6
   path_provider: ^2.1.4
+  flutter_otp_text_field: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +86,7 @@ flutter:
     - assets/images/suma.jpg
     - assets/images/logo2-removebg.jpg
     - assets/images/icons8-google-logo-48.png
+    - assets/images/3275434-removebg-preview.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
