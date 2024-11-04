@@ -21,7 +21,11 @@ class MemoryCareApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false, // Remove a faixa de debug no canto superior direito.
       theme: isDarkMode ? TAppTheme.darkTheme : TAppTheme.lightTheme, // Use o tema claro
+<<<<<<< HEAD:frontend/lib/src/app.dart
       home: const CircularProgressIndicator(), // Define `WelcomePage` como a tela principal do aplicativo.
+=======
+      home: const WelcomePage(), // Define `WelcomePage` como a tela principal do aplicativo.
+>>>>>>> 3056cf94494733ae2dab0e6c9588daa2bb52c6f1:lib/src/app.dart
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 500),
       // routes: {
