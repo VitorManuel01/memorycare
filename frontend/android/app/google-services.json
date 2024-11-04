@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "931077496114",
+    "project_id": "memory-care-64711",
+    "storage_bucket": "memory-care-64711.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931077496114:android:6507387dd3f42c6ed30b2b",
+        "android_client_info": {
+          "package_name": "com.memorycare.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4dBP33z_0-azkt3SQEMK5nEJ84ZLi-SA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

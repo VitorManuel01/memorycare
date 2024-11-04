@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "MemorycareApplication",
+            "request": "launch",
+            "mainClass": "com.memorycare.memorycare.MemorycareApplication"
+        },
+        {
             "name": "memorycare",
             "request": "launch",
             "type": "dart"

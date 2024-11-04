@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "C:/Users/VITOR/Documents/AndroidStudioProjects/devel/memorycare/windows/flutter",
+    "cmake.sourceDirectory": "C:/Users/VITOR/Documents/AndroidStudioProjects/devel/memorycare/frontend/windows/flutter",
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.compile.nullAnalysis.mode": "automatic"
 }
