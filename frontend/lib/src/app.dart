@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:memorycare/src/utils/themes/theme.dart';
 //import 'package:memorycare/src/views/AddTaskPage.dart';
 //import 'package:memorycare/src/views/HomePage.dart';
-import 'package:memorycare/src/views/welcomePage.dart';
 
 
 
