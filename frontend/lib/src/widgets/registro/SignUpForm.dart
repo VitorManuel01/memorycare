@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/sign_up_controller.dart';
+import 'package:memorycare/src/models/cuidadores.dart';
+import 'package:memorycare/src/widgets/registro/SignUpComplimentary.dart';
 // import 'package:memorycare/src/views/esqueci_a_senha/esqueci_a_senha_otp/tela_otp.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -10,7 +12,7 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SignUpController());
+    final controller = Get.find<SignUpController>();
 
     final formKey = GlobalKey<FormState>();
 
@@ -62,18 +64,13 @@ class SignUpForm extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          SignUpController.instance.registrarUsuario(
-                              controller.email.text.trim(),
-                              controller.senha.text.trim());
-
-                          // SignUpController.instance.autenticarPorTelefone(
-                          //     controller.telefone.text.trim());
-                          // Get.to(() => const TelaOTP());
+                          controller.avancarParaFormularioComplementar();
                         }
                       },
-                      child: const Text("REGISTRAR")))
+                      child: const Text("CONTINUAR")))
             ],
           )),
     );
   }
 }
+

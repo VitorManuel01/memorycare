@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
-import 'package:memorycare/src/widgets/taskButton.dart';
+import 'package:memorycare/src/views/perfil/PerfilDependente.dart';
+
+import 'Tarefas.dart';
+import 'perfil/PerfilCuidador.dart';
 
 /// A classe HomePage define a tela principal do aplicativo.
 class HomePage extends StatelessWidget {
@@ -8,114 +12,165 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Pegando as informações de MediaQuery
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height;
+    var brightness = mediaQuery.platformBrightness;
+    final isDarkMode = brightness == Brightness.dark;
+
+    final backgroundColor = isDarkMode ? const Color(0XFF272727) : Colors.greenAccent;
+
     return Scaffold(
-      // `Scaffold` é uma estrutura básica que contém a barra de app e o corpo da página.
-      backgroundColor:
-          const Color(0xFFB7D3A8), // Define a cor de fundo (verde-claro).
-      body: SafeArea(
-        // `SafeArea` evita que o conteúdo fique sobreposto à barra de status do dispositivo.
-        child: Padding(
-          padding: const EdgeInsets.all(
-              16.0), // Adiciona espaçamento interno em todos os lados.
-          child: Column(
-            // Exibe os widgets verticalmente, um abaixo do outro.
-            crossAxisAlignment: CrossAxisAlignment
-                .center, // Centraliza o conteúdo horizontalmente.
-            children: [
-              // Linha que contém o título, o botão de adicionar tarefa e o botão de logout.
-              Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .spaceBetween, // Distribui os itens com espaço entre eles.
-                children: [
-                  const Text(
-                    'Segunda-Feira', // Exibe o nome do dia da semana.
-                    style: TextStyle(
-                      fontSize: 20, // Define o tamanho da fonte.
-                      color: Colors.black87, // Define a cor do texto.
-                    ),
-                  ),
-                  Row(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        title: TextField(
+          decoration: InputDecoration(
+            hintText: 'Search',
+            hintStyle:
+                TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+            border: InputBorder.none,
+            prefixIcon: Icon(Icons.search,
+                color: isDarkMode ? Colors.white : Colors.black),
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.red, size: 30),
+            onPressed: () {
+              AuthenticationRepository.instance.logout();
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: backgroundColor,
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Botão de adicionar tarefa, usando um ícone de "+".
-                      IconButton(
-                        icon: const Icon(Icons.add,
-                            color: Colors.green, size: 30),
-                        // Ao pressionar o botão, navega para a página de adicionar tarefa.
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/add-task');
-                        },
+                      Text(
+                        'Memory Care',
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
-                      // Botão de logout, usando um ícone de "sair".
-                      IconButton(
-                        icon: const Icon(Icons.logout,
-                            color: Colors.red, size: 30),
-                        // Ao pressionar o botão, adicione a lógica de logout aqui.
-                        onPressed: () {
-                          AuthenticationRepository.instance.logout();
-                        },
+                      Text(
+                        'Online 1-on-1 Tutoring',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.greenAccent,
+                          backgroundColor: isDarkMode
+                              ? const Color(0x000651bd)
+                              : Colors.white,
+                        ),
+                        child: Text(
+                          'Learn More',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontSize: 9,
+                                  ),
+                        ),
                       ),
                     ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 20), // Adiciona um espaçamento vertical.
-              // Exibe o relógio na tela.
-              const Text(
-                '00:00', // Valor fixo apenas como exemplo.
-                style: TextStyle(
-                  fontSize: 60, // Tamanho grande para simular um relógio.
-                  fontWeight: FontWeight.bold, // Define a fonte como negrito.
-                  color: Colors.white, // Cor branca para o texto.
                 ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 16.0,
+                childAspectRatio: 0.8,
               ),
-              const SizedBox(
-                  height: 10), // Espaçamento entre o relógio e o texto abaixo.
-              const Text(
-                'Convidar', // Texto "Convidar" abaixo do relógio.
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
-              const SizedBox(height: 30), // Mais um espaçamento vertical.
-              // Container expandido que ocupa o espaço disponível e exibe a lista de tarefas.
-              Expanded(
-                child: Container(
-                  // Container com cor de fundo e bordas arredondadas na parte superior.
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF507D5A), // Verde-escuro para o fundo.
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(40), // Bordas arredondadas no topo.
+              padding: const EdgeInsets.all(16.0),
+              itemCount: 4, // Total de cards
+              itemBuilder: (context, index) {
+                // Lista de botões com ícones e seus respectivos nomes e páginas
+                final List<Map<String, dynamic>> pages = [
+                  {
+                    'name': 'Tarefas',
+                    'icon': Icons.assignment,
+                    'page': const Tarefas(),
+                  },
+                  {
+                    'name': 'Perfil Cuidador',
+                    'icon': Icons.person,
+                    'page': const PerfilCuidador(),
+                  },
+                  {
+                    'name': 'Perfil Dependente',
+                    'icon': Icons.elderly,
+                    'page': const PerfilDependente(), // Ajuste conforme necessário
+                  },
+                  {
+                    'name': 'Cuidadores Secundários',
+                    'icon': Icons.person_pin,
+                    'page': const Tarefas(), // Ajuste conforme necessário
+                  },
+                ];
+
+                final page = pages[index];
+
+                return InkWell(
+                  onTap: () {
+                    // Redireciona para a página correspondente usando Get.to() corretamente
+                    Get.to(page['page']);
+                  },
+                  splashColor:
+                      Colors.blue.withOpacity(0.3), // Cor do efeito de splash
+                  highlightColor: Colors.blue
+                      .withOpacity(0.1), // Cor do efeito de highlight
+                  child: Card(
+                    elevation: 5, // Adiciona sombra no card
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(10), // Cantos arredondados
                     ),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(
-                        16.0), // Espaçamento interno no container.
                     child: Column(
-                      // Exibe os itens (título e botões de tarefa) na vertical.
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Tarefas', // Título "Tarefas".
-                          style: TextStyle(
-                            fontSize:
-                                24, // Tamanho maior para destacar o título.
-                            fontWeight: FontWeight.bold, // Negrito.
-                            color: Colors.white, // Cor branca.
+                        Icon(
+                          page['icon'], // Ícone específico de cada card
+                          size: 50, // Tamanho do ícone
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            page['name'], // Nome do card
+                            textAlign: TextAlign.center,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize:
+                                          20, // Ajuste de tamanho conforme necessário
+                                    ),
                           ),
                         ),
-                        SizedBox(height: 20), // Espaçamento abaixo do título.
-                        TaskButton(
-                            taskName:
-                                'Tarefa 01'), // Botão para a primeira tarefa.
-                        SizedBox(height: 10), // Espaçamento entre os botões.
-                        TaskButton(
-                            taskName:
-                                'Tarefa 02'), // Botão para a segunda tarefa.
                       ],
                     ),
                   ),
-                ),
-              ),
-            ],
+                );
+              },
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

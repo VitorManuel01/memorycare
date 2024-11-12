@@ -40,13 +40,10 @@ dependencies:
   get: ^4.6.6
   path_provider: ^2.1.4
   flutter_otp_text_field: ^1.2.0
-<<<<<<< HEAD:frontend/pubspec.yaml
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   line_awesome_flutter: ^3.0.1
-=======
->>>>>>> 3056cf94494733ae2dab0e6c9588daa2bb52c6f1:pubspec.yaml
-
+  cloud_firestore: ^5.4.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -93,6 +90,7 @@ flutter:
     - assets/images/logo2-removebg.jpg
     - assets/images/icons8-google-logo-48.png
     - assets/images/3275434-removebg-preview.png
+    - assets/images/blank-profile-picture-973460_1280.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

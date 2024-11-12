@@ -3,11 +3,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Cuidador', {
-      id: {
+      firebaseUid: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       nome: {
         type: Sequelize.STRING
@@ -19,12 +18,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
       },
       telefone: {
-        type: Sequelize.STRING
-      },
-      senha: {
         type: Sequelize.STRING
       },
       createdAt: {

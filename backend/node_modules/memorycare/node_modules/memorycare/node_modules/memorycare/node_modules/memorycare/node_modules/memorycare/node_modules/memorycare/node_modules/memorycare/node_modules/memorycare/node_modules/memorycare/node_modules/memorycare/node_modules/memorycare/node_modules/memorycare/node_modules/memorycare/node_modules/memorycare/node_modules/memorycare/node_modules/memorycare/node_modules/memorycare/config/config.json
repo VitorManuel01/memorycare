@@ -1,9 +1,10 @@
 {
   "development": {
-    "username": "Budah",
-    "password": "VitorSQLDeusVult",
-    "database": "memorycare",
-    "host": "127.0.0.1",
+    "username": "root",
+    "password": "aSzGOcNVKoztELWqrUsnwPLOFbYCDpQU",
+    "database": "railway",
+    "port": "39458",
+    "host": "autorack.proxy.rlwy.net",
     "dialect": "mysql"
   },
   "test": {

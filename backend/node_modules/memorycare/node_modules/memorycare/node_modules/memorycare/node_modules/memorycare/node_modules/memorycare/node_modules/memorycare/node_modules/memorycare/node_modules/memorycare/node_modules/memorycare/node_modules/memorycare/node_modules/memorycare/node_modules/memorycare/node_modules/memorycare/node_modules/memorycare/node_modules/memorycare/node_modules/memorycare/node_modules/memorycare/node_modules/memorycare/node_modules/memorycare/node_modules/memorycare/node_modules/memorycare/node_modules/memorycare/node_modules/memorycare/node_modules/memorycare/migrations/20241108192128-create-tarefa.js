@@ -11,7 +11,7 @@ module.exports = {
       },
       id_dependente_FK: {
         type: Sequelize.INTEGER,
-          references:{
+        references: {
           model: 'Dependente',
           key: 'id'
         },
@@ -19,30 +19,29 @@ module.exports = {
         onDelete: 'SET NULL'
       },
       titulo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100), // Limita o título a 100 caracteres
+        allowNull: false
       },
       texto: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: true
       },
       horario: {
-        type: Sequelize.DATE
+        type: Sequelize.TIME,
+        allowNull: false
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('pendente','concluída'), // Define valores para status
+        defaultValue: 'pendente'
       },
       tarefa_se_repete: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       criado_em: {
-        type: Sequelize.DATE
-      },
-      createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.NOW // Define a data de criação para o momento atual
       }
     });
   },

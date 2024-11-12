@@ -6,9 +6,9 @@ import 'package:memorycare/src/app.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
 
 /// Função principal que inicia o aplicativo.
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
   runApp(
       const MemoryCareApp()); // `MemoryCareApp` é a classe raiz do aplicativo.

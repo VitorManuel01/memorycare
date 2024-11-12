@@ -1,9 +1,10 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('memorycare', 'Budah', 'VitorSQLDeusVult', {
-    host: '127.0.0.1',
+
+const sequelize = new Sequelize('railway', 'root', 'aSzGOcNVKoztELWqrUsnwPLOFbYCDpQU', {
+    host: 'autorack.proxy.rlwy.net',
     dialect: 'mysql',
-    port: '3306',
+    port: '39458',
     
     // configuração necessária para evitar o erro ECONNRESET
     dialectOptions: {

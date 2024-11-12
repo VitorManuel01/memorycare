@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:memorycare/src/views/HomePage.dart';
 import 'package:memorycare/src/views/welcomePage.dart';
+import 'package:http/http.dart' as http;
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -75,41 +76,64 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-Future<void> loginUserWithEmailAndPassword(
-    String email, String password) async {
-  try {
-    // Tenta fazer o login com email e senha
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
-  } on FirebaseAuthException catch (e) {
-    // Trata o erro retornando uma mensagem específica para cada código de erro
-    String errorMessage;
-    switch (e.code) {
-      case 'invalid-email':
-        errorMessage = 'O endereço de email é inválido.';
-        break;
-      case 'user-disabled':
-        errorMessage = 'Esta conta foi desativada.';
-        break;
-      case 'user-not-found':
-        errorMessage = 'Não há usuário com este email.';
-        break;
-      case 'wrong-password':
-        errorMessage = 'A senha está incorreta.';
-        break;
-      default:
-        errorMessage = 'Ocorreu um erro desconhecido.';
+  Future<void> loginUserWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      // Tenta fazer o login com email e senha
+      //UserCredential userCredential = 
+      await _auth.signInWithEmailAndPassword(
+          email: email, 
+          password: password);
+      // Obtém o token JWT
+      // String? token = await userCredential.user?.getIdToken();
+
+      // Envia o token para o backend para controle de sessão
+      // if (token != null) {
+      //   await sendTokenToBackend(token);
+      // }
+    } on FirebaseAuthException catch (e) {
+      // Trata o erro retornando uma mensagem específica para cada código de erro
+      String errorMessage;
+      switch (e.code) {
+        case 'invalid-email':
+          errorMessage = 'O endereço de email é inválido.';
+          break;
+        case 'user-disabled':
+          errorMessage = 'Esta conta foi desativada.';
+          break;
+        case 'user-not-found':
+          errorMessage = 'Não há usuário com este email.';
+          break;
+        case 'wrong-password':
+          errorMessage = 'A senha está incorreta.';
+          break;
+        default:
+          errorMessage = 'Ocorreu um erro desconhecido.';
+      }
+
+      // Exibe a mensagem de erro, por exemplo, usando print ou snackbar
+      print(errorMessage);
+      // ou
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+
+      // Opcional: retorna o erro para o chamador (ajuda no teste ou no controle do erro)
+      return Future.error(errorMessage);
     }
-
-    // Exibe a mensagem de erro, por exemplo, usando print ou snackbar
-    print(errorMessage);
-    // ou
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
-
-    // Opcional: retorna o erro para o chamador (ajuda no teste ou no controle do erro)
-    return Future.error(errorMessage);
   }
-}
 
+  // Future<void> sendTokenToBackend(String token) async {
+  //   final response = await http.post(
+  //     Uri.parse('http://10.0.2.2:3000/login'),
+  //     headers: {'Authorization': 'Bearer $token'},
+  //   );
 
+  //   if (response.statusCode == 200) {
+  //     print("Autenticado no backend");
+  //   } else {
+  //     print("Erro ao autenticar no backend: ${response.body}");
+  //   }
+
+    
+  // }
   Future<void> logout() async => await _auth.signOut();
 }
