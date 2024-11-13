@@ -8,8 +8,8 @@ import 'package:memorycare/src/widgets/registro/sign_up_footer.dart';
 import '../../controllers/sign_up_controller.dart';
 import '../../widgets/registro/SignUpComplimentary.dart';
 
-class Signuppage extends StatelessWidget {
-  const Signuppage({super.key});
+class SignUpPageComplimentary extends StatelessWidget {
+  const SignUpPageComplimentary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +33,8 @@ class Signuppage extends StatelessWidget {
                   subtitulo: "Seja Bem Vindo ao Memory Care",
                 ),
 
-                SignUpForm(),
-                SignUpFooter(),
+                SignUpFormComplementary(), 
+
               ],
             ),
           ),

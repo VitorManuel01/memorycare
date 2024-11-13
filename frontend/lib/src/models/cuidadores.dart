@@ -3,7 +3,7 @@ class Cuidadores {
   final String nome;
   final int idade;
   final String parentescoFuncao;
-  final String email;
+  final String? email;
   final String telefone;
 
   Cuidadores(

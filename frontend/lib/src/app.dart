@@ -21,8 +21,8 @@ class MemoryCareApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false, // Remove a faixa de debug no canto superior direito.
       theme: isDarkMode ? TAppTheme.darkTheme : TAppTheme.lightTheme, // Use o tema claro
-      home: const CircularProgressIndicator(),
-      
+      home: const HomePage(),
+      //const CircularProgressIndicator()
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 500),
       // routes: {

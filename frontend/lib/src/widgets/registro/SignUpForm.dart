@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/sign_up_controller.dart';
 import 'package:memorycare/src/models/cuidadores.dart';
+import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 import 'package:memorycare/src/widgets/registro/SignUpComplimentary.dart';
+
+import '../../controllers/login_controller.dart';
 // import 'package:memorycare/src/views/esqueci_a_senha/esqueci_a_senha_otp/tela_otp.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -12,8 +16,7 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SignUpController>();
-
+    final controller = Get.put(SignUpController());
     final formKey = GlobalKey<FormState>();
 
     return Container(
@@ -24,28 +27,10 @@ class SignUpForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                  controller: controller.nomeCompleto,
-                  decoration: const InputDecoration(
-                    label: Text("Nome Completo"),
-                    prefixIcon: Icon(Icons.person_outline_outlined),
-                  )),
-              const SizedBox(
-                height: 10.0,
-              ),
-              TextFormField(
                   controller: controller.email,
                   decoration: const InputDecoration(
                     label: Text("E-Mail"),
                     prefixIcon: Icon(Icons.email_outlined),
-                  )),
-              const SizedBox(
-                height: 10.0,
-              ),
-              TextFormField(
-                  controller: controller.telefone,
-                  decoration: const InputDecoration(
-                    label: Text("Telefone"),
-                    prefixIcon: Icon(Icons.phone_android_outlined),
                   )),
               const SizedBox(
                 height: 10.0,
@@ -62,9 +47,12 @@ class SignUpForm extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          controller.avancarParaFormularioComplementar();
+                          // Tenta registrar o usuário e só navega se não houver erro
+                          await SignUpController.instance.registrarUsuario(
+                              controller.email.text.trim(),
+                              controller.senha.text.trim());
                         }
                       },
                       child: const Text("CONTINUAR")))
@@ -73,4 +61,3 @@ class SignUpForm extends StatelessWidget {
     );
   }
 }
-

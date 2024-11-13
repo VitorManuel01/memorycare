@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/models/cuidadores.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 
 import '../repository/authentication_repository/cuidador_repository.dart';
 
@@ -21,59 +23,70 @@ class SignUpController extends GetxController {
 
   final cuidadorRepo = Get.put(CuidadorRepository());
 
-  void limparControladores() {
-    nomeCompleto.clear();
-    email.clear();
-    senha.clear();
-    telefone.clear();
-    idade.clear();
-    parentescoFuncao.clear();
-  }
-
-  @override
-  void onClose() {
-    nomeCompleto.dispose();
-    email.dispose();
-    senha.dispose();
-    telefone.dispose();
-    idade.dispose();
-    parentescoFuncao.dispose();
-    super.onClose();
-  }
-  var exibirFormComplementar = false.obs;
 
   // Função para avançar para o formulário complementar
-  void avancarParaFormularioComplementar() {
-    exibirFormComplementar.value = true;
-  }
-
-  // Função para voltar ao formulário inicial, se necessário
-  void voltarParaFormularioInicial() {
-    exibirFormComplementar.value = false;
-  }
 
   Future<void> criarCuidador(Cuidadores cuidador) async {
+    
     await cuidadorRepo.createCuidador(cuidador);
   }
 
   //Função pra ser usada no widget de registro
-  void registrarUsuario(String email, String senha) async {
-    try {
-      // Primeiro registra o usuário no Firebase
-      await AuthenticationRepository.instance
-          .createUserWithEmailAndPassword(email, senha);
+ Future<void> registrarUsuario(String email, String senha) async {
+  try {
+    // Primeiro registra o usuário no Firebase
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: senha);
+      
 
-      // Depois pega o UID do usuário registrado e o token para autenticação no backend
-      final user = AuthenticationRepository.instance.firebaseUser.value;
-      print(user);
-      if (user != null) {
-        final token = await user.getIdToken();
-        await registerUserToBackend(token!, user.uid);
+    // Depois pega o UID do usuário registrado e o token para autenticação no backend
+    final user = userCredential.user; // O usuário foi registrado com sucesso
+    print(user);
+    Get.to(() => const SignUpPageComplimentary());
+    if (user != null) {
+      final token = await user.getIdToken(); // Obtém o token de autenticação
+      if (token != null) {
+        await registerUserToBackend(token, user.uid); // Envia o token e o UID para o backend
+      } else {
+        print("Token não obtido.");
       }
-    } catch (e) {
-      print("EXCEPTION - ${e.toString()}");
+    } else {
+      print("Usuário não registrado corretamente.");
     }
+  } on FirebaseAuthException catch (e) {
+    // Tratar erros específicos de autenticação
+    if (e.code == 'email-already-in-use') {
+      print("Erro: E-mail já está em uso.");
+      Get.snackbar(
+        "Erro",
+        "Este e-mail já está em uso. Por favor, escolha outro.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    } else {
+      print("Erro no registro: ${e.message}");
+      Get.snackbar(
+        "Erro",
+        "Erro inesperado ao registrar o usuário. Tente novamente mais tarde.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
+  } catch (e) {
+    // Tratar outros tipos de erro não especificados
+    print("Erro inesperado: ${e.toString()}");
+    Get.snackbar(
+      "Erro",
+      "Erro inesperado. Tente novamente.",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red.withOpacity(0.1),
+      colorText: Colors.red,
+    );
   }
+}
+
 
   Future<void> registerUserToBackend(String token, String firebaseUid) async {
     final response = await http.post(

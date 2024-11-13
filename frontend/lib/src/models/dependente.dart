@@ -1,31 +1,30 @@
-class Dependentes {
+class Dependente {
   final String? id;
   final String nome;
   final int idade;
   final String contatoEmergencia;
-  final String endereco;
   final String telefone;
+  final String endereco;
   final String cuidadorPrincipal;
 
-  Dependentes( {
-      this.id,
-      required this.nome,
-      required this.idade,
-      required this.contatoEmergencia,
-      required this.endereco,
-      required this.telefone,
-      required this.cuidadorPrincipal,
-      });
+  Dependente({
+    this.id,
+    required this.nome,
+    required this.idade,
+    required this.contatoEmergencia,
+    required this.telefone,
+    required this.endereco,
+    required this.cuidadorPrincipal,
+  });
 
-        toJson() {
+  Map<String, dynamic> toJson() {
     return {
       "NomeCompleto": nome,
       "Idade": idade,
       "ContatoEmergencia": contatoEmergencia,
+      "Telefone": telefone,
       "Residencia": endereco,
-      "Telefone": telefone,      
       "CuidadorPrincipal": cuidadorPrincipal
     };
-    
   }
 }

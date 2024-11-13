@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:memorycare/src/views/HomePage.dart';
+import 'package:memorycare/src/views/registro/SignUpPage.dart';
+import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 import 'package:memorycare/src/views/welcomePage.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,8 +24,8 @@ class AuthenticationRepository extends GetxController {
 
   _setInitialScreen(User? user) {
     user == null
-        ? Get.offAll(() => const WelcomePage())
-        : Get.offAll(() => const HomePage());
+        ? Get.offAll(() => const Signuppage())
+        : Get.offAll(() => const WelcomePage());
   }
 
   Future<void> phoneNumberAuthentication(String telefone) async {
@@ -62,7 +64,7 @@ class AuthenticationRepository extends GetxController {
           email: email, password: password);
 
       firebaseUser.value != null
-          ? Get.offAll(() => const HomePage())
+          ? Get.offAll(() => const SignUpPageComplimentary())
           : Get.offAll(() => const WelcomePage());
     } on FirebaseAuthException catch (e) {
       final ex = SignupEmailPasswordFailure.code(e.code);
@@ -80,10 +82,9 @@ class AuthenticationRepository extends GetxController {
       String email, String password) async {
     try {
       // Tenta fazer o login com email e senha
-      //UserCredential userCredential = 
-      await _auth.signInWithEmailAndPassword(
-          email: email, 
-          password: password);
+      //UserCredential userCredential =
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      Get.to(() => const HomePage());
       // Obtém o token JWT
       // String? token = await userCredential.user?.getIdToken();
 
@@ -133,7 +134,6 @@ class AuthenticationRepository extends GetxController {
   //     print("Erro ao autenticar no backend: ${response.body}");
   //   }
 
-    
   // }
   Future<void> logout() async => await _auth.signOut();
 }

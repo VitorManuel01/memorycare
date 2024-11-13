@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/constants/image_strings.dart';
 import 'package:memorycare/src/widgets/common_widgets/HeaderFormWidget.dart';
+import 'package:memorycare/src/widgets/registro/RegistroDeDependenteForm.dart';
 import 'package:memorycare/src/widgets/registro/SignUpForm.dart';
 import 'package:memorycare/src/widgets/registro/sign_up_footer.dart';
 
 import '../../controllers/sign_up_controller.dart';
 import '../../widgets/registro/SignUpComplimentary.dart';
 
-class Signuppage extends StatelessWidget {
-  const Signuppage({super.key});
+class RegistroDependente extends StatelessWidget {
+  const RegistroDependente({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +30,12 @@ class Signuppage extends StatelessWidget {
               children: [
                 HeaderFormWidget(
                   imagem: tAppLogoImage,
-                  titulo: "Faça o registro no nosso App",
+                  titulo: "Registre os dados do dependente",
                   subtitulo: "Seja Bem Vindo ao Memory Care",
                 ),
 
-                SignUpForm(),
-                SignUpFooter(),
+                RegistroDeDependenteForm(), 
+
               ],
             ),
           ),
@@ -43,4 +44,3 @@ class Signuppage extends StatelessWidget {
     );
   }
 }
-
