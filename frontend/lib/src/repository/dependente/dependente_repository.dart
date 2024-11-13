@@ -2,9 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:memorycare/src/models/cuidadores.dart';
 import 'package:memorycare/src/models/dependente.dart';
-import 'package:memorycare/src/views/HomePage.dart';
+import 'package:memorycare/src/views/home/HomePage.dart';
 
 class DependenteRepository extends GetxController {
   static DependenteRepository get instance => Get.find();

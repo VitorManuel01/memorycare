@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
 import 'package:memorycare/src/views/perfil/PerfilDependente.dart';
 
-import 'Tarefas.dart';
-import 'perfil/PerfilCuidador.dart';
+import '../tarefas/Tarefas.dart';
+import '../perfil/PerfilCuidador.dart';
 
 /// A classe HomePage define a tela principal do aplicativo.
 class HomePage extends StatelessWidget {

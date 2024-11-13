@@ -1,0 +1,4 @@
+enum StatusTarefa {
+  pendente,
+  concluida
+}

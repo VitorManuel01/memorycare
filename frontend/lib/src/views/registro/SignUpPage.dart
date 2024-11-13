@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:memorycare/src/constants/image_strings.dart';
 import 'package:memorycare/src/widgets/common_widgets/HeaderFormWidget.dart';
 import 'package:memorycare/src/widgets/registro/SignUpForm.dart';
 import 'package:memorycare/src/widgets/registro/sign_up_footer.dart';
 
-import '../../controllers/sign_up_controller.dart';
-import '../../widgets/registro/SignUpComplimentary.dart';
 
 class Signuppage extends StatelessWidget {
   const Signuppage({super.key});

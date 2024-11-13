@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../constants/image_strings.dart';
-import '../../widgets/perfil/profile-menu-widget.dart';
 
 class EditarPerfilCuidador extends StatelessWidget {
   const EditarPerfilCuidador({super.key});

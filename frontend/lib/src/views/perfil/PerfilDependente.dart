@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:memorycare/src/constants/image_strings.dart';
-import 'package:memorycare/src/views/perfil/EditarPerfilCuidador.dart';
 import 'package:memorycare/src/views/perfil/EditarPerfilDependente.dart';
 
 class PerfilDependente extends StatelessWidget {

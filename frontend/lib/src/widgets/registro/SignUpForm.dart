@@ -1,12 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/sign_up_controller.dart';
-import 'package:memorycare/src/models/cuidadores.dart';
-import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
-import 'package:memorycare/src/widgets/registro/SignUpComplimentary.dart';
 
-import '../../controllers/login_controller.dart';
 // import 'package:memorycare/src/views/esqueci_a_senha/esqueci_a_senha_otp/tela_otp.dart';
 
 class SignUpForm extends StatelessWidget {

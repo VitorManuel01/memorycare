@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
-import 'package:memorycare/src/views/HomePage.dart';
+import 'package:memorycare/src/views/home/HomePage.dart';
 
 class OTPController extends GetxController {
   static OTPController get instance => Get.find();

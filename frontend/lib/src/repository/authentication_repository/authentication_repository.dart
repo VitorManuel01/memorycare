@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
-import 'package:memorycare/src/views/HomePage.dart';
+import 'package:memorycare/src/views/home/HomePage.dart';
 import 'package:memorycare/src/views/registro/SignUpPage.dart';
 import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
-import 'package:memorycare/src/views/welcomePage.dart';
-import 'package:http/http.dart' as http;
+import 'package:memorycare/src/views/home/welcomePage.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -24,8 +23,8 @@ class AuthenticationRepository extends GetxController {
 
   _setInitialScreen(User? user) {
     user == null
-        ? Get.offAll(() => const Signuppage())
-        : Get.offAll(() => const WelcomePage());
+        ? Get.offAll(() => const WelcomePage())
+        : Get.offAll(() => const HomePage());
   }
 
   Future<void> phoneNumberAuthentication(String telefone) async {

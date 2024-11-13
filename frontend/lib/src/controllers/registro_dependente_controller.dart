@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/models/dependente.dart';
-import 'package:memorycare/src/repository/authentication_repository/dependente_repository.dart';
+import 'package:memorycare/src/repository/dependente/dependente_repository.dart';
 
 class RegistroDependenteController extends GetxController {
   static RegistroDependenteController get instance => Get.find();
