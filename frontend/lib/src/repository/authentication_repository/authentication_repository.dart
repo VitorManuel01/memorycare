@@ -1,30 +1,61 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:memorycare/src/controllers/cuidadores-controller.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:memorycare/src/views/home/HomePage.dart';
 import 'package:memorycare/src/views/registro/SignUpPage.dart';
 import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 import 'package:memorycare/src/views/home/welcomePage.dart';
+import 'package:memorycare/src/repository/authentication_repository/cuidador_repository.dart';
+
+import '../../models/cuidadores.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
+
+  CuidadorRepository cuidadoresRepo = Get.put(CuidadorRepository());
 
   //Variaveis
   final _auth = FirebaseAuth.instance;
   late Rx<User?> firebaseUser;
   var verificationId = "".obs;
+  var isManualRedirect = false.obs;
 
   @override
   void onReady() {
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
-    ever(firebaseUser, _setInitialScreen);
+    ever(firebaseUser, (user) {
+      if (!isManualRedirect.value) {
+        _setInitialScreen(user);
+      }
+    });
   }
 
-  _setInitialScreen(User? user) {
-    user == null
-        ? Get.offAll(() => const WelcomePage())
-        : Get.offAll(() => const HomePage());
+  // bool temCuidador() async{
+  //   Cuidadores cuidador = zzzzzcuidadoresController.getCuidador(_auth.currentUser!.uid.toString());
+  //   if()
+  //   return true;
+  // }
+
+  Future<void> _setInitialScreen(User? user) async {
+    if (user == null) {
+      // Se o usuário não estiver autenticado
+      Get.offAll(() => const WelcomePage());
+    } else {
+      try {
+        // Verifica se o usuário tem cuidador
+        final possuiCuidador = await cuidadoresRepo.hasCuidador();
+        if (possuiCuidador) {
+          Get.offAll(() => const HomePage());
+        } else {
+          Get.offAll(() => const SignUpPageComplimentary());
+        }
+      } catch (e) {
+        print("Erro ao determinar redirecionamento: $e");
+        return;
+      }
+    }
   }
 
   Future<void> phoneNumberAuthentication(String telefone) async {
@@ -58,22 +89,26 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
+    isManualRedirect.value = true;
     try {
+      // Impede o redirecionamento automático
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      firebaseUser.value != null
-          ? Get.offAll(() => const SignUpPageComplimentary())
-          : Get.offAll(() => const WelcomePage());
+      // Redireciona manualmente para a página complementar
+      await Future.delayed(const Duration(
+          milliseconds: 200)); // Pequeno atraso para evitar conflitos
+      Get.offAll(() => const SignUpPageComplimentary());
     } on FirebaseAuthException catch (e) {
       final ex = SignupEmailPasswordFailure.code(e.code);
-      // ignore: avoid_print
       print("FIREBASE AUTH EXCEPTION - ${ex.message}");
     } catch (_) {
       const ex = SignupEmailPasswordFailure();
-      // ignore: avoid_print
       print("EXCEPTION - ${ex.message}");
       throw ex;
+    } finally {
+      isManualRedirect.value =
+          false; // Reativa o redirecionamento automático após o fluxo manual
     }
   }
 
@@ -134,5 +169,13 @@ class AuthenticationRepository extends GetxController {
   //   }
 
   // }
-  Future<void> logout() async => await _auth.signOut();
+  Future<void> logout() async {
+    try {
+      // Verifique se há streams ativos e encerre antes do logout
+      await FirebaseAuth.instance.signOut();
+      print('Usuário desconectado com sucesso.');
+    } catch (e) {
+      print('Erro ao desconectar: $e');
+    }
+  }
 }

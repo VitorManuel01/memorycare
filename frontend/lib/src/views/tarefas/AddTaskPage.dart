@@ -8,22 +8,24 @@ import 'package:memorycare/src/views/tarefas/Tarefas.dart';
 import '../../controllers/tarefas_controller.dart';
 import '../../models/StatusTarefa.dart';
 
-class DataHoraController extends GetxController {
-  // Variável reativa para armazenar a data e hora como string
+class DataHoraController2 extends GetxController {
+  
   RxString tempo = "Selecionar horário".obs;
 }
+
 /// Página para adicionar novas tarefas.
 class AddTaskPage extends StatelessWidget {
   const AddTaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Criação da instância do controller
-    final DataHoraController dataHoraController = Get.put(DataHoraController());
-    final TarefasController registroTarefasController = Get.put(TarefasController());
+    final DataHoraController2 dataHoraController = Get.put(DataHoraController2());
+    final TarefasController registroTarefasController =
+        Get.put(TarefasController());
 
     // Variáveis locais para os dados da tarefa
     final TextEditingController tituloController = TextEditingController();
+    final TextEditingController descricaoController = TextEditingController();
     final Rx<StatusTarefa?> statusSelecionado = Rx<StatusTarefa?>(null);
     final Rx<bool> tarefaSeRepete = false.obs;
     Timestamp? diaEhorario;
@@ -51,6 +53,12 @@ class AddTaskPage extends StatelessWidget {
             TextField(
               controller: tituloController,
               decoration: const InputDecoration(labelText: 'Título da Tarefa'),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: descricaoController,
+              decoration: const InputDecoration(labelText: 'Descrição'),
+              maxLines: 7,
             ),
             const SizedBox(height: 16),
 
@@ -122,8 +130,9 @@ class AddTaskPage extends StatelessWidget {
                 if (tituloController.text.isNotEmpty && diaEhorario != null) {
                   // Criação da tarefa
                   Tarefa tarefa = Tarefa(
-                  //  idDependente: 'id_dependente', // Substitua pelo ID real do dependente
+                    //  idDependente: 'id_dependente', // Substitua pelo ID real do dependente
                     titulo: tituloController.text,
+                    descricao: descricaoController.text,
                     diaEhorario: diaEhorario!,
                     status: StatusTarefa.pendente, // Ajuste conforme necessário
                     tarefaSeRepete: tarefaSeRepete.value,
@@ -150,4 +159,3 @@ class AddTaskPage extends StatelessWidget {
     );
   }
 }
-

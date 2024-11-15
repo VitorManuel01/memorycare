@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Cuidadores {
   final String? id;
   final String nome;
@@ -22,5 +24,16 @@ class Cuidadores {
       'email': email,
       'telefone': telefone,
     };
+  }
+
+    factory Cuidadores.fromFirestore(DocumentSnapshot doc) {
+    return Cuidadores(
+      id: doc.id, // Pega o ID do documento
+      nome: doc['nome'],
+      idade: doc['idade'],
+      parentescoFuncao: doc['parentescoFuncao'],
+      email: doc['email'],
+      telefone: doc['telefone'],
+    );
   }
 }

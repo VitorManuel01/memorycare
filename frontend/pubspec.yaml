@@ -44,6 +44,18 @@ dependencies:
   firebase_auth: ^5.3.1
   line_awesome_flutter: ^3.0.1
   cloud_firestore: ^5.4.5
+  flutter_local_notifications: ^18.0.1
+  rxdart: ^0.28.0
+  timezone: ^0.10.0
+  # wear: ^1.1.0
+  # wearable_rotary: ^2.0.2
+  # # flutter_wear_os_connectivity: ^1.0.0
+  # flutter_blue_plus: ^1.34.4
+  # geolocator: ^13.0.1
+  # geoflutterfire_plus: ^0.0.31
+  # geofencing_api: ^2.0.0
+  # flutter_background_geolocation: ^4.16.4
+  # relateddigital_flutter: ^0.5.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,6 +66,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo2-removebg-preview.png"
 
 flutter_native_splash:
   color: "#f7f6f1"

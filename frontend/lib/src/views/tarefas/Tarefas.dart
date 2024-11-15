@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/tarefas_controller.dart';
 import 'package:memorycare/src/views/tarefas/AddTaskPage.dart';
+import 'package:memorycare/src/views/tarefas/editOrRemoveTaskPage.dart';
 
 import '../../models/tarefa.dart';
 import '../../widgets/ButaoDeTarefas.dart';
@@ -16,12 +19,29 @@ class Tarefas extends StatelessWidget {
     var brightness = mediaQuery.platformBrightness;
     final isDarkMode = brightness == Brightness.dark;
 
+    
+    RxString horario = RxString("${TimeOfDay.now().hour}:${TimeOfDay.now().minute}");
+
+
+    void atualizarHora() {
+      Timer.periodic(const Duration(seconds: 1), (timer) {
+        horario.value = "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
+      });
+    }
+
+    // Inicia a atualização do horário assim que o widget for carregado
+    atualizarHora();
+
     // Instância do repositório para pegar as tarefas
     final controller = Get.put(TarefasController());
 
     return Scaffold(
       backgroundColor:
           isDarkMode ? const Color(0XFF272727) : const Color(0xFFB7D3A8),
+      appBar: AppBar(
+        title: const Text('Tarefas'),
+        backgroundColor: Colors.green,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -31,9 +51,9 @@ class Tarefas extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Segunda-Feira',
-                    style: TextStyle(fontSize: 20, color: Colors.black87),
+                    style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   IconButton(
                     icon: const Icon(Icons.add, color: Colors.green, size: 30),
@@ -44,14 +64,12 @@ class Tarefas extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const Text('00:00',
-                  style: TextStyle(
-                      fontSize: 60,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              Obx(() => Text(
+                    horario.value,
+                    style: Theme.of(context).textTheme.displayLarge,
+                    
+                  )),
               const SizedBox(height: 10),
-              const Text('Convidar',
-                  style: TextStyle(fontSize: 18, color: Colors.white)),
               const SizedBox(height: 30),
               Expanded(
                 child: Container(
@@ -75,28 +93,10 @@ class Tarefas extends StatelessWidget {
 
                         // Usando o StreamBuilder para exibir as tarefas
                         Expanded(
-                          child: StreamBuilder<Stream<List<Tarefa>>>(
-                            stream: controller
-                                .listaDeTarefas(), // Aqui estamos usando o Stream<Stream<List<Tarefa>>>
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                    child: Text('Erro: ${snapshot.error}'));
-                              } else if (!snapshot.hasData ||
-                                  snapshot.data == null) {
-                                return const Center(child: Text('Sem tarefas'));
-                              }
-
-                              // Agora, obtemos o stream de tarefas (Stream<List<Tarefa>>)
-                              final streamTarefas = snapshot.data!;
-
-                              return StreamBuilder<List<Tarefa>>(
+                          child: StreamBuilder<List<Tarefa>>(
                                 stream:
-                                    streamTarefas, // Passa o Stream<List<Tarefa>> do stream de tarefas
+                                    controller
+                                .listaDeTarefas(), // Passa o Stream<List<Tarefa>> do stream de tarefas
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
@@ -119,17 +119,14 @@ class Tarefas extends StatelessWidget {
                                       return ButaoDeTarefas(
                                         taskName: tarefa.titulo,
                                         onPress: () {
-                                          
-                                          // Get.to(() =>
-                                          //     TaskPage(tarefaId: tarefa.id));
+                                          Get.to(() => EditorRemoveTaskPage(
+                                              tarefaId: tarefa.id!));
                                         },
                                       );
                                     },
                                   );
                                 },
-                              );
-                            },
-                          ),
+                              ),
                         ),
                       ],
                     ),

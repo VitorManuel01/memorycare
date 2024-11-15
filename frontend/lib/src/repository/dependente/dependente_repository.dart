@@ -49,7 +49,7 @@ class DependenteRepository extends GetxController {
               backgroundColor: Colors.green.withOpacity(0.1),
               colorText: Colors.green,
             );
-            Get.to(() => const HomePage());
+            Get.offAll(() => const HomePage());
           });
     } catch (error, stackTrace) {
       // Exibe erro caso ocorra uma falha na operação

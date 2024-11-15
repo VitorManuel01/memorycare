@@ -23,9 +23,6 @@ class SignUpController extends GetxController {
 
   final cuidadorRepo = Get.put(CuidadorRepository());
 
-
-  // Função para avançar para o formulário complementar
-
   Future<void> criarCuidador(Cuidadores cuidador) async {
     
     await cuidadorRepo.createCuidador(cuidador);
@@ -34,25 +31,10 @@ class SignUpController extends GetxController {
   //Função pra ser usada no widget de registro
  Future<void> registrarUsuario(String email, String senha) async {
   try {
-    // Primeiro registra o usuário no Firebase
-    UserCredential userCredential = await FirebaseAuth.instance
+    // registra o usuário no Firebase
+    await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: senha);
       
-
-    // Depois pega o UID do usuário registrado e o token para autenticação no backend
-    final user = userCredential.user; // O usuário foi registrado com sucesso
-    print(user);
-    Get.to(() => const SignUpPageComplimentary());
-    if (user != null) {
-      final token = await user.getIdToken(); // Obtém o token de autenticação
-      if (token != null) {
-        await registerUserToBackend(token, user.uid); // Envia o token e o UID para o backend
-      } else {
-        print("Token não obtido.");
-      }
-    } else {
-      print("Usuário não registrado corretamente.");
-    }
   } on FirebaseAuthException catch (e) {
     // Tratar erros específicos de autenticação
     if (e.code == 'email-already-in-use') {
@@ -87,31 +69,48 @@ class SignUpController extends GetxController {
   }
 }
 
-
-  Future<void> registerUserToBackend(String token, String firebaseUid) async {
-    final response = await http.post(
-      Uri.parse(
-          'http://10.0.2.2:3000/memorycareapi/register'), // Corrige a porta se necessário
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'firebaseUid': firebaseUid,
-        'nome': nomeCompleto.text,
-        'email': email.text,
-        'telefone': telefone.text,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      print('Usuário registrado no backend com sucesso');
-    } else {
-      print('Erro ao registrar usuário no backend: ${response.body}');
-    }
-  }
-
   void autenticarPorTelefone(String telefone) {
     AuthenticationRepository.instance.phoneNumberAuthentication(telefone);
   }
 }
+
+
+
+
+  // Future<void> registerUserToBackend(String token, String firebaseUid) async {
+  //   final response = await http.post(
+  //     Uri.parse(
+  //         'http://10.0.2.2:3000/memorycareapi/register'), // Corrige a porta se necessário
+  //     headers: {
+  //       'Authorization': 'Bearer $token',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: jsonEncode({
+  //       'firebaseUid': firebaseUid,
+  //       'nome': nomeCompleto.text,
+  //       'email': email.text,
+  //       'telefone': telefone.text,
+  //     }),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     print('Usuário registrado no backend com sucesso');
+  //   } else {
+  //     print('Erro ao registrar usuário no backend: ${response.body}');
+  //   }
+  // }
+
+    // // Depois pega o UID do usuário registrado e o token para autenticação no backend
+    // final user = userCredential.user; // O usuário foi registrado com sucesso
+    // print(user);
+    // Get.to(() => const SignUpPageComplimentary());
+    // if (user != null) {
+    //   final token = await user.getIdToken(); // Obtém o token de autenticação
+    //   if (token != null) {
+    //     await registerUserToBackend(token, user.uid); // Envia o token e o UID para o backend
+    //   } else {
+    //     print("Token não obtido.");
+    //   }
+    // } else {
+    //   print("Usuário não registrado corretamente.");
+    // }

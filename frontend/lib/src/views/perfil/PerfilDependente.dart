@@ -93,6 +93,8 @@ class DependenteInfo extends StatelessWidget {
     required this.residencia,
     required this.cuidadorPrincipal,
   });
+
+  
   final String nomeCompleto;
   final int idade;
   final String telefone;

@@ -13,7 +13,8 @@
         {
             "name": "memorycare",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "frontend/lib/main.dart"
         },
         {
             "name": "memorycare (profile mode)",

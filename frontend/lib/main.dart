@@ -5,11 +5,15 @@ import 'package:memorycare/firebase_options.dart';
 import 'package:memorycare/src/app.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
 
+import 'src/services/notificationService.dart';
+
 /// Função principal que inicia o aplicativo.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
+  await NotificationService.init();
+  NotificationService.scheduleNotifications();
   runApp(
       const MemoryCareApp()); // `MemoryCareApp` é a classe raiz do aplicativo.
 }

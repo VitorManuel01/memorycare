@@ -84,9 +84,7 @@ class TarefasRepository extends GetxController {
     }
   }
 
-
   Future<Stream<List<Tarefa>>> getTarefas() async {
-
     String? uid = await obterUidUsuario();
 
     // Verifica se o usuário está autenticado
@@ -98,7 +96,6 @@ class TarefasRepository extends GetxController {
         backgroundColor: Colors.red.withOpacity(0.1),
         colorText: Colors.red,
       );
-
     }
 
     String? idDependente = await obterIdDependente(uid!);
@@ -106,17 +103,144 @@ class TarefasRepository extends GetxController {
       throw Exception("Dependente não encontrado para o cuidador");
     }
 
-    return _db
+    final stream = _db
         .collection('cuidadores/$uid/dependente/$idDependente/tarefas')
         .snapshots()
-        .map((snapshot) {
-          return snapshot.docs
-              .map((doc) => Tarefa.fromFirestore(doc))
-              .toList();
-        });
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Tarefa.fromFirestore(doc)).toList());
+
+    return Future.value(stream);
   }
 
+  Future<Tarefa> getTarefa(String idTarefa) async {
+    String? uid = await obterUidUsuario();
 
+    // Verifica se o usuário está autenticado
+    if (uid == null) {
+      Get.snackbar(
+        "Erro",
+        "Usuário não autenticado.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      throw Exception("Usuário não autenticado");
+    }
 
+    String? idDependente = await obterIdDependente(uid);
+    if (idDependente == null) {
+      throw Exception("Dependente não encontrado para o cuidador");
+    }
 
+    try {
+      DocumentSnapshot doc = await _db
+          .collection('cuidadores/$uid/dependente/$idDependente/tarefas')
+          .doc(idTarefa)
+          .get();
+
+      if (doc.exists) {
+        return Tarefa.fromFirestore(doc);
+      } else {
+        throw Exception("Tarefa não encontrada");
+      }
+    } catch (e) {
+      throw Exception("Erro ao obter tarefa: $e");
+    }
+  }
+
+  editarTarefa(Tarefa tarefa, String idTarefa) async {
+    String? uid = await obterUidUsuario();
+
+    // Verifica se o usuário está autenticado
+    if (uid == null) {
+      Get.snackbar(
+        "Erro",
+        "Usuário não autenticado.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      return;
+    }
+
+    String? idDependente = await obterIdDependente(uid);
+    if (idDependente == null) {
+      throw Exception("Dependente não encontrado para o cuidador");
+    }
+
+    try {
+      await _db
+          .collection('cuidadores/$uid/dependente/$idDependente/tarefas')
+          .doc(idTarefa)
+          .update({
+        'Titulo': tarefa.titulo,
+        'Descricao': tarefa.descricao,
+        'DataEHora': tarefa.diaEhorario,
+        'Status': tarefa.status
+            .toString()
+            .split('.')
+            .last, // Converte o enum para string
+        'TarefaSeRepete': tarefa.tarefaSeRepete,
+        'CriadoEm': tarefa.criadoEm,
+      });
+      Get.snackbar(
+        "Sucesso",
+        "Tarefa editada com sucesso!",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.1),
+        colorText: Colors.green,
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Erro",
+        "Não foi possível editar a tarefa: $e",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
+  }
+
+  excluirTarefa(String idTarefa) async {
+    String? uid = await obterUidUsuario();
+
+    // Verifica se o usuário está autenticado
+    if (uid == null) {
+      Get.snackbar(
+        "Erro",
+        "Usuário não autenticado.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      return;
+    }
+
+    String? idDependente = await obterIdDependente(uid);
+    if (idDependente == null) {
+      throw Exception("Dependente não encontrado para o cuidador");
+    }
+
+    try {
+      await _db
+          .collection('cuidadores/$uid/dependente/$idDependente/tarefas')
+          .doc(idTarefa)
+          .delete();
+      Get.snackbar(
+        "Sucesso",
+        "Tarefa excluída com sucesso!",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.1),
+        colorText: Colors.green,
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Erro",
+        "Não foi possível excluir a tarefa: $e",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
+  }
 }
