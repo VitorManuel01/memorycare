@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:memorycare/src/models/tarefa.dart';
 import 'package:memorycare/src/repository/dependente/tarefas_repository.dart';
-import 'package:memorycare/src/services/notificationService.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TarefasController extends GetxController {

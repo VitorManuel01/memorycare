@@ -30,12 +30,32 @@ class SignUpForm extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              TextFormField(
-                  controller: controller.senha,
-                  decoration: const InputDecoration(
-                    label: Text("Senha"),
-                    prefixIcon: Icon(Icons.lock_outline),
-                  )),
+            Obx(
+              () => TextFormField(
+                controller: controller.senha,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  labelText: "Senha",
+                  hintText: "Senha",
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    onPressed: controller.toggleObscureText,
+                    icon: Icon(
+                      controller.obscureText.value
+                          ? Icons.remove_red_eye_sharp
+                          : Icons.visibility_off,
+                    ),
+                  ),
+                ),
+                obscureText: controller.obscureText.value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira a senha';
+                  }
+                  return null;
+                },
+              ),
+            ),
               const SizedBox(
                 height: 10.0,
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:memorycare/src/controllers/registro_dependente_controller.dart';
+import 'package:memorycare/src/controllers/dependente_controller.dart';
 
 import '../../models/dependente.dart';
 
@@ -12,7 +12,7 @@ class RegistroDeDependenteForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(RegistroDependenteController());
+    final controller = Get.put(DependenteController());
 
     final formKey = GlobalKey<FormState>();
 
@@ -91,10 +91,8 @@ class RegistroDeDependenteForm extends StatelessWidget {
                               endereco: controller.endereco.text,
                               cuidadorPrincipal: controller.cuidadorPrincipal.text);
 
-                          RegistroDependenteController.instance.createDependente(dependente);
-                          // SignUpController.instance.autenticarPorTelefone(
-                          //     controller.telefone.text.trim());
-                          // Get.to(() => const TelaOTP());
+                          DependenteController.instance.createDependente(dependente);
+
                         }
                       },
                       child: const Text("REGISTRAR")))

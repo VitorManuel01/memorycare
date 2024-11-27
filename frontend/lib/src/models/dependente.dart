@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Dependente {
   final String? id;
   final String nome;
@@ -26,5 +28,17 @@ class Dependente {
       "Residencia": endereco,
       "CuidadorPrincipal": cuidadorPrincipal
     };
+  }
+
+    factory Dependente.fromFirestore(DocumentSnapshot doc) {
+    return Dependente(
+      id: doc.id, // Pega o ID do documento
+      nome: doc['NomeCompleto'],
+      idade: doc['Idade'],
+      contatoEmergencia: doc['ContatoEmergencia'],
+      telefone: doc['Telefone'],
+      endereco: doc['Residencia'],
+      cuidadorPrincipal: doc['CuidadorPrincipal'],
+    );
   }
 }

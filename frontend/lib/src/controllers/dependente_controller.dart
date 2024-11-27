@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:memorycare/src/models/dependente.dart';
 import 'package:memorycare/src/repository/dependente/dependente_repository.dart';
 
-class RegistroDependenteController extends GetxController {
-  static RegistroDependenteController get instance => Get.find();
+class DependenteController extends GetxController {
+  static DependenteController get instance => Get.find();
+
+  final dependenteRepo = Get.put(DependenteRepository());
 
   final nome = TextEditingController();
   final idade = TextEditingController();
@@ -13,9 +15,18 @@ class RegistroDependenteController extends GetxController {
   final endereco = TextEditingController();
   final cuidadorPrincipal = TextEditingController();
 
-  final dependenteRepo = Get.put(DependenteRepository());
+
 
   createDependente(Dependente dependente) async {
     await dependenteRepo.createDependente(dependente);
   }
+
+  Future<Dependente> getDependente() async {
+    return await dependenteRepo.getDependente();
+  }
+
+    editarDependente(Dependente dependente) {
+    dependenteRepo.editarDependente(dependente);
+  }
+
 }

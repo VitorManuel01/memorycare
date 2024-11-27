@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:memorycare/src/controllers/tarefas_controller.dart';
 import 'package:memorycare/src/views/tarefas/AddTaskPage.dart';
 import 'package:memorycare/src/views/tarefas/editOrRemoveTaskPage.dart';
@@ -19,9 +20,8 @@ class Tarefas extends StatelessWidget {
     var brightness = mediaQuery.platformBrightness;
     final isDarkMode = brightness == Brightness.dark;
 
-    
-    RxString horario = RxString("${TimeOfDay.now().hour}:${TimeOfDay.now().minute}");
-
+    RxString horario =
+        RxString("${TimeOfDay.now().hour}:${TimeOfDay.now().minute}");
 
     void atualizarHora() {
       Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -52,7 +52,9 @@ class Tarefas extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Segunda-Feira',
+                    DateFormat('EEEE', 'pt_BR')
+                        .format(DateTime.now())
+                        .toUpperCase(),
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   IconButton(
@@ -67,7 +69,6 @@ class Tarefas extends StatelessWidget {
               Obx(() => Text(
                     horario.value,
                     style: Theme.of(context).textTheme.displayLarge,
-                    
                   )),
               const SizedBox(height: 10),
               const SizedBox(height: 30),
@@ -94,39 +95,43 @@ class Tarefas extends StatelessWidget {
                         // Usando o StreamBuilder para exibir as tarefas
                         Expanded(
                           child: StreamBuilder<List<Tarefa>>(
-                                stream:
-                                    controller
+                            stream: controller
                                 .listaDeTarefas(), // Passa o Stream<List<Tarefa>> do stream de tarefas
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return Center(
-                                        child: Text('Erro: ${snapshot.error}'));
-                                  } else if (!snapshot.hasData ||
-                                      snapshot.data!.isEmpty) {
-                                    return const Center(
-                                        child: Text('Sem tarefas'));
-                                  }
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                    child: Text('Erro: ${snapshot.error}'));
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return const Center(child: Text('Sem tarefas'));
+                              }
 
-                                  final tarefas = snapshot.data!;
-                                  return ListView.builder(
-                                    itemCount: tarefas.length,
-                                    itemBuilder: (context, index) {
-                                      final tarefa = tarefas[index];
-                                      return ButaoDeTarefas(
-                                        taskName: tarefa.titulo,
-                                        onPress: () {
-                                          Get.to(() => EditorRemoveTaskPage(
-                                              tarefaId: tarefa.id!));
-                                        },
-                                      );
-                                    },
+                              final tarefas = snapshot.data!;
+                              return ListView.builder(
+                                itemCount: tarefas.length,
+                                padding: const EdgeInsets.only(
+                                    bottom: 20),
+                                itemBuilder: (context, index) {
+                                  final tarefa = tarefas[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 5), 
+                                    child: ButaoDeTarefas(
+                                      taskName: tarefa.titulo,
+                                      onPress: () {
+                                        Get.to(() => EditorRemoveTaskPage(
+                                            tarefaId: tarefa.id!));
+                                      },
+                                    ),
                                   );
                                 },
-                              ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

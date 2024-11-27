@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:memorycare/src/controllers/cuidadores-controller.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:memorycare/src/views/home/HomePage.dart';
-import 'package:memorycare/src/views/registro/SignUpPage.dart';
 import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 import 'package:memorycare/src/views/home/welcomePage.dart';
 import 'package:memorycare/src/repository/authentication_repository/cuidador_repository.dart';
 
-import '../../models/cuidadores.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();

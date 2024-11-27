@@ -142,9 +142,6 @@ class AddTaskPage extends StatelessWidget {
                   // Envia a tarefa para o controller salvar
                   registroTarefasController.createTarefa(tarefa);
 
-                  // Exibe uma mensagem de sucesso
-                  Get.snackbar("Sucesso", "Tarefa criada com sucesso");
-
                   // Navega para a página inicial ou outra página desejada
                   Get.to(() => const Tarefas());
                 } else {

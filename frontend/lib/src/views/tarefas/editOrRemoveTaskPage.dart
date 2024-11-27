@@ -208,8 +208,6 @@ class EditorRemoveTaskPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             registroTarefasController.excluirTarefa(tarefaId);
-                            Get.snackbar(
-                                "Sucesso", "Tarefa excluída com sucesso");
                             Get.to(() => const Tarefas());
                           },
                           child: const Text('EXCLUIR'),

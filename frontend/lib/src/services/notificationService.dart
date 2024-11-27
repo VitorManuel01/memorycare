@@ -49,7 +49,7 @@ class NotificationService {
       ticker: 'ticker',
     );
 
-    return NotificationDetails(android: android);
+    return const NotificationDetails(android: android);
   }
 
   // Agendar notificações para cada tarefa

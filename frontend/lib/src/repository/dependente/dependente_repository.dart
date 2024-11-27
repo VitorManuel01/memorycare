@@ -18,9 +18,23 @@ class DependenteRepository extends GetxController {
       return null;
     }
   }
+    Future<String?> obterIdDependente(String uidCuidador) async {
+    // Busca o primeiro dependente do cuidador
+    QuerySnapshot dependenteSnapshot = await _db
+        .collection("cuidadores")
+        .doc(uidCuidador)
+        .collection("dependente")
+        .get();
+
+    if (dependenteSnapshot.docs.isNotEmpty) {
+      // Retorna o ID do primeiro documento na coleção `dependente`
+      return dependenteSnapshot.docs.first.id;
+    } else {
+      return null;
+    }
+  }
 
   createDependente(Dependente dependente) async {
-
     String? uid = await obterUidUsuario();
 
     // Verifica se o usuário está autenticado
@@ -41,16 +55,16 @@ class DependenteRepository extends GetxController {
           .collection("cuidadores/$uid/dependente")
           .add(dependente.toJson())
           .whenComplete(() {
-            // Exibe mensagem de sucesso e redireciona para a HomePage
-            Get.snackbar(
-              "Sucesso",
-              "Dependente cadastrado com sucesso",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.green.withOpacity(0.1),
-              colorText: Colors.green,
-            );
-            Get.offAll(() => const HomePage());
-          });
+        // Exibe mensagem de sucesso e redireciona para a HomePage
+        Get.snackbar(
+          "Sucesso",
+          "Dependente cadastrado com sucesso",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green.withOpacity(0.1),
+          colorText: Colors.green,
+        );
+        Get.offAll(() => const HomePage());
+      });
     } catch (error, stackTrace) {
       // Exibe erro caso ocorra uma falha na operação
       print("Error: $error");
@@ -64,5 +78,87 @@ class DependenteRepository extends GetxController {
       );
     }
   }
-}
 
+  Future<Dependente> getDependente() async {
+    String? uid = await obterUidUsuario();
+
+    if (uid == null) {
+      Get.snackbar(
+        "Erro",
+        "Usuário não autenticado.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      throw Exception("Usuário não autenticado");
+    }
+
+    try {
+      // Obtém o único documento na subcoleção.
+      QuerySnapshot querySnapshot = await _db
+          .collection('cuidadores/$uid/dependente')
+          .limit(1) // Garante que apenas 1 documento será obtido.
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        DocumentSnapshot doc = querySnapshot.docs.first;
+        return Dependente.fromFirestore(doc);
+      } else {
+        throw Exception("Dependente não encontrado");
+      }
+    } catch (e) {
+      throw Exception("Erro ao obter Dependente: $e");
+    }
+  }
+
+    editarDependente(Dependente dependente) async {
+    String? uid = await obterUidUsuario();
+
+    // Verifica se o usuário está autenticado
+    if (uid == null) {
+      Get.snackbar(
+        "Erro",
+        "Usuário não autenticado.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      return;
+    }
+
+        String? idDependente = await obterIdDependente(uid);
+    if (idDependente == null) {
+      throw Exception("Dependente não encontrado para o cuidador");
+    }
+
+    try {
+      await _db
+          .collection('cuidadores/$uid/dependente/')
+          .doc(idDependente)
+          .update({
+        'NomeCompleto': dependente.nome,
+        'Idade': dependente.idade,
+        'ContatoEmergencia': dependente.contatoEmergencia,
+        'Telefone': dependente.telefone,
+        'Residencia': dependente.endereco,
+        'CuidadorPrincipal': dependente.cuidadorPrincipal,
+      });
+      Get.snackbar(
+        "Sucesso",
+        "Dependente editado com sucesso!",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.1),
+        colorText: Colors.green,
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Erro",
+        "Não foi possível editar as informações do dependente: $e",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
+  }
+
+}
