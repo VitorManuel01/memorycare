@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:memorycare/src/controllers/analise_preditiva_controller.dart';
 import 'package:memorycare/src/controllers/tarefas_controller.dart';
 import 'package:memorycare/src/models/tarefa.dart';
 import 'package:memorycare/src/views/tarefas/Tarefas.dart';
@@ -10,9 +11,10 @@ import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-class NotificationService {
+class TarefasNotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
   static final onNotifications = BehaviorSubject<String?>();
+  final analisePredController = AnalisePreditivaController();
 
   static Future<void> init() async {
     tz.initializeTimeZones();
@@ -57,7 +59,7 @@ class NotificationService {
     final tarefaController = Get.put(TarefasController());
     final user = FirebaseAuth.instance.currentUser;
     // Obter a lista de tarefas como um Stream
-    
+
     if (user != null) {
       // O usuário está autenticado, pode realizar operações no Firestore
       final tarefasStream = tarefaController.listaDeTarefas();
@@ -70,7 +72,6 @@ class NotificationService {
     } else {
       print('Usuário não autenticado. Operação cancelada.');
       return;
-      
     }
     // Usar await for para processar cada emissão do Stream
   }
@@ -107,4 +108,7 @@ class NotificationService {
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
+
+  
+
 }

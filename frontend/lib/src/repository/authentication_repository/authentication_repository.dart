@@ -1,16 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
+import 'package:memorycare/src/views/analise_preditiva/dominio1.dart';
+import 'package:memorycare/src/views/analise_preditiva/paginaTransicao.dart';
 import 'package:memorycare/src/views/home/HomePage.dart';
 import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 import 'package:memorycare/src/views/home/welcomePage.dart';
 import 'package:memorycare/src/repository/authentication_repository/cuidador_repository.dart';
 
-
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
   CuidadorRepository cuidadoresRepo = Get.put(CuidadorRepository());
+  AnalisePreditivaRepository analiseRepo =
+      Get.put(AnalisePreditivaRepository());
 
   //Variaveis
   final _auth = FirebaseAuth.instance;
@@ -43,8 +47,14 @@ class AuthenticationRepository extends GetxController {
       try {
         // Verifica se o usuário tem cuidador
         final possuiCuidador = await cuidadoresRepo.hasCuidador();
+        final existeDoc = await analiseRepo.verificarDocumentoExistente();
+        final status = await analiseRepo.verificarStatusTeste();
         if (possuiCuidador) {
-          Get.offAll(() => const HomePage());
+          if (existeDoc && status) {
+            Get.offAll(() => const HomePage());
+          } else {
+            Get.offAll(() => const PaginaTransicaoAnalise());
+          }
         } else {
           Get.offAll(() => const SignUpPageComplimentary());
         }

@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:memorycare/firebase_options.dart';
 import 'package:memorycare/src/app.dart';
 import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
-import 'src/services/notificationService.dart';
+import 'package:memorycare/src/services/AnalisePredNotificationService.dart';
+import 'src/services/tarefasNotificationService.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -14,8 +15,10 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
   await initializeDateFormatting('pt_BR', null);
-  await NotificationService.init();
-  NotificationService.scheduleNotifications();
+  await TarefasNotificationService.init();
+  TarefasNotificationService.scheduleNotifications();
+  await AnalisePredNotificationService.init();
+  AnalisePredNotificationService.scheduleNotifications();
   runApp(
       const MemoryCareApp()); // `MemoryCareApp` é a classe raiz do aplicativo.
 }

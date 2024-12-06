@@ -105,6 +105,9 @@ flutter:
     - assets/images/icons8-google-logo-48.png
     - assets/images/3275434-removebg-preview.png
     - assets/images/blank-profile-picture-973460_1280.png
+    - assets/images/Relogio-Masculino-Analogico-Prata--Mondaine---99192G0MVNE1.png
+    - assets/images/caneta_esferografica_bic_cristal_dura_mais_azul_ponta_media_de_1_0mm_2637_1_671e4fdf5e2c89e777e6923939970830.png
+    - assets/images/pentagonos.PNG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
