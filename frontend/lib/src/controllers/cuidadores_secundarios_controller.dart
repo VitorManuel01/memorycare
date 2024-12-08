@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/models/cuidadoresSucundarios.dart';
 import 'package:memorycare/src/repository/dependente/cuidadorSecundario_repository.dart';

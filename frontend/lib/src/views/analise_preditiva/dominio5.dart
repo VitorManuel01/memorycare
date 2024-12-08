@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/analise_preditiva_controller.dart';
-import 'package:memorycare/src/views/analise_preditiva/dominio6.dart';
-import 'package:memorycare/src/views/analise_preditiva/resultadoPage.dart';
 
 class Dominio5 extends StatelessWidget {
   final analisePreditivaController = Get.put(AnalisePreditivaController());

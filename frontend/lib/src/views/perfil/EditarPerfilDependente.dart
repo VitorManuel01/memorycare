@@ -4,7 +4,6 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:memorycare/src/controllers/dependente_controller.dart';
 import 'package:memorycare/src/models/dependente.dart';
 import 'package:memorycare/src/views/home/HomePage.dart';
-import 'package:memorycare/src/views/perfil/PerfilDependente.dart';
 
 import '../../constants/image_strings.dart';
 

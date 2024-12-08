@@ -6,7 +6,7 @@ class Perguntas extends StatelessWidget {
   final List<String> perguntas;
   final Function(int) onConcluir;
 
-  Perguntas({
+  const Perguntas({super.key, 
     required this.dominio,
     required this.perguntas,
     required this.onConcluir,
@@ -42,7 +42,7 @@ class Perguntas extends StatelessWidget {
               final pontos = respostas.where((resposta) => resposta).length;
               onConcluir(pontos); // Chama o callback com a pontuação calculada
             },
-            child: Text("Próximo"),
+            child: const Text("Próximo"),
           ),
         ],
       ),

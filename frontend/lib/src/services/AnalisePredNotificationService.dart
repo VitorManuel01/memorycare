@@ -1,10 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:memorycare/src/controllers/analise_preditiva_controller.dart';
 import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
 import 'package:memorycare/src/views/analise_preditiva/dominio1.dart';
 import 'package:rxdart/rxdart.dart';
@@ -47,9 +43,9 @@ class AnalisePredNotificationService {
   // Configurações de detalhes da notificação
   static Future<NotificationDetails> _notificationDetails() async {
     const android = AndroidNotificationDetails(
-      'NotificaçõesMemoryCare', // ID do canal
-      'NotificaçõesMemoryCare', // Nome do canal
-      channelDescription: 'Canal de Notificações Memory Care',
+      'Analises_Preditivas_notification', // ID do canal
+      'Teste_Cognitivo', // Nome do canal
+      channelDescription: 'Notificações de Testes Cognitivos',
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',

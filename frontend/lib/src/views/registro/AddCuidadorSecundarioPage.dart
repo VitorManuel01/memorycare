@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/cuidadores_secundarios_controller.dart';
-import 'package:memorycare/src/models/cuidadoresSucundarios.dart';
 import 'package:memorycare/src/widgets/registro/RegistroCuidSecForm.dart';
 
 class AddCuidadorSecundarioPage extends StatelessWidget {

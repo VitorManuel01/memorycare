@@ -13,7 +13,19 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://storage.googleapis.com/download.flutter.io" }
+        maven { url "${project(':flutter_background_geolocation').projectDir}/libs" }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "${project(':background_fetch').projectDir}/libs" }
     }
+}
+
+ext {
+    compileSdkVersion   = 34                // or higher / as desired
+    targetSdkVersion    = 34                // or higher / as desired
+    minSdkVersion       = 21
+    appCompatVersion    = "1.7.0"
+    playServicesLocationVersion = "21.3.0"
 }
 
 rootProject.buildDir = "../build"

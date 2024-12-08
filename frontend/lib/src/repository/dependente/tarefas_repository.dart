@@ -202,6 +202,7 @@ class TarefasRepository extends GetxController {
   }
 
   excluirTarefa(String idTarefa) async {
+
     String? uid = await obterUidUsuario();
 
     // Verifica se o usuário está autenticado
@@ -243,4 +244,5 @@ class TarefasRepository extends GetxController {
       );
     }
   }
+  
 }

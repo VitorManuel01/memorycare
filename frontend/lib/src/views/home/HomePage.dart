@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:memorycare/src/repository/authentication_repository/authentication_repository.dart';
-import 'package:memorycare/src/views/analise_preditiva/dominio1.dart';
+import 'package:memorycare/src/views/geolocalizacao/mapa.dart';
 import 'package:memorycare/src/views/perfil/PerfilCuidadorSecundario.dart';
 import 'package:memorycare/src/views/perfil/PerfilDependente.dart';
 
@@ -65,31 +64,39 @@ class HomePage extends StatelessWidget {
                   childAspectRatio: 0.8,
                 ),
                 padding: const EdgeInsets.all(16.0),
-                itemCount: 4, // Total de cards
+                itemCount: 6, // Total de cards
                 itemBuilder: (context, index) {
                   // Lista de botões com ícones e seus respectivos nomes e páginas
                   final List<Map<String, dynamic>> pages = [
                     {
                       'name': 'Tarefas',
                       'icon': Icons.assignment,
-                      'page': const Tarefas(),
+                      'page':()=>  const Tarefas(),
                     },
                     {
                       'name': 'Perfil Cuidador',
                       'icon': Icons.person,
-                      'page': const PerfilCuidador(),
+                      'page':()=>  const PerfilCuidador(),
                     },
                     {
                       'name': 'Perfil Dependente',
                       'icon': Icons.elderly,
-                      'page':
-                          const PerfilDependente(), // Ajuste conforme necessário
+                      'page':()=>  const PerfilDependente(), // Ajuste conforme necessário
                     },
                     {
                       'name': 'Cuidadores Secundários',
                       'icon': Icons.person_pin,
-                      'page':
-                          const PerfilCuidadorSecundario(), // Ajuste conforme necessário
+                      'page': ()=> const PerfilCuidadorSecundario(), // Ajuste conforme necessário
+                    },
+                                        {
+                      'name': 'Geolocalização',
+                      'icon': Icons.person_pin,
+                      'page': ()=> const Mapa(), // Ajuste conforme necessário
+                    },
+                                        {
+                      'name': 'Cuidadores Secundários',
+                      'icon': Icons.person_pin,
+                      'page': ()=> const PerfilCuidadorSecundario(), // Ajuste conforme necessário
                     },
                   ];
 

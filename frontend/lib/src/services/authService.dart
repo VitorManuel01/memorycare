@@ -16,23 +16,21 @@ class AuthService {
       // Obtém o ID Token do Firebase
       String? idToken = await userCredential.user?.getIdToken();
 
-      if (idToken != null) {
-        // Envia o token para o backend
-        final response = await http.post(
-          Uri.parse('$backendUrl/login'),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $idToken", // Token do Firebase no cabeçalho
-          },
-        );
+      // Envia o token para o backend
+      final response = await http.post(
+        Uri.parse('$backendUrl/login'),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $idToken", // Token do Firebase no cabeçalho
+        },
+      );
 
-        if (response.statusCode == 200) {
-          print("Login no backend com sucesso");
-        } else {
-          print("Erro ao fazer login no backend: ${response.body}");
-        }
+      if (response.statusCode == 200) {
+        print("Login no backend com sucesso");
+      } else {
+        print("Erro ao fazer login no backend: ${response.body}");
       }
-    } catch (e) {
+        } catch (e) {
       print("Erro ao fazer login no Firebase: $e");
     }
   }

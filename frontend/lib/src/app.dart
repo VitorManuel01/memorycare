@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
 import 'package:memorycare/src/utils/themes/theme.dart';
 import 'package:memorycare/src/views/analise_preditiva/dominio2.dart';
 import 'package:memorycare/src/views/analise_preditiva/dominio3.dart';

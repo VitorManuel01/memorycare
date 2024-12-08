@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
 import 'package:memorycare/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
-import 'package:memorycare/src/views/analise_preditiva/dominio1.dart';
 import 'package:memorycare/src/views/analise_preditiva/paginaTransicao.dart';
 import 'package:memorycare/src/views/home/HomePage.dart';
 import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';

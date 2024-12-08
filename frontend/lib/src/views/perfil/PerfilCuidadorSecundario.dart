@@ -1,8 +1,6 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:memorycare/src/controllers/cuidadores_secundarios_controller.dart';
 import 'package:memorycare/src/models/cuidadoresSucundarios.dart';
 import 'package:memorycare/src/views/perfil/EditarPerfilCuidadorSecundario.dart';

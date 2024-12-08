@@ -72,30 +72,28 @@ class AddTaskPage extends StatelessWidget {
                   lastDate: DateTime(2100),
                 );
 
-                if (dataSelecionada != null) {
-                  TimeOfDay? horaSelecionada = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.now(),
+                TimeOfDay? horaSelecionada = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+
+                if (horaSelecionada != null) {
+                  DateTime dateTime = DateTime(
+                    dataSelecionada!.year,
+                    dataSelecionada.month,
+                    dataSelecionada.day,
+                    horaSelecionada.hour,
+                    horaSelecionada.minute,
                   );
 
-                  if (horaSelecionada != null) {
-                    DateTime dateTime = DateTime(
-                      dataSelecionada.year,
-                      dataSelecionada.month,
-                      dataSelecionada.day,
-                      horaSelecionada.hour,
-                      horaSelecionada.minute,
-                    );
+                  // Converte para Timestamp
+                  diaEhorario = Timestamp.fromDate(dateTime);
 
-                    // Converte para Timestamp
-                    diaEhorario = Timestamp.fromDate(dateTime);
-
-                    // Atualiza a variável reativa com o horário selecionado
-                    dataHoraController.tempo.value =
-                        "${dateTime.day}/${dateTime.month}/${dateTime.year} - ${dateTime.hour}:${dateTime.minute}";
-                  }
+                  // Atualiza a variável reativa com o horário selecionado
+                  dataHoraController.tempo.value =
+                      "${dateTime.day}/${dateTime.month}/${dateTime.year} - ${dateTime.hour}:${dateTime.minute}";
                 }
-              },
+                            },
               child: Row(
                 children: [
                   const Icon(

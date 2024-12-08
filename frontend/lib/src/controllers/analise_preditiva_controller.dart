@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
 

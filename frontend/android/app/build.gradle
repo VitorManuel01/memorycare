@@ -8,11 +8,15 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// flutter_background_geolocation
+Project background_geolocation = project(':flutter_background_geolocation')
+apply from: "${background_geolocation.projectDir}/background_geolocation.gradle"
 
 android {
     namespace = "com.example.memorycare"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -39,6 +43,7 @@ android {
         versionName = flutter.versionName
         multiDexEnabled true
         resValue "string", "app_name", "Memory Care"
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
     buildTypes {
@@ -59,6 +64,11 @@ android {
 dependencies {
   implementation 'androidx.window:window:1.0.0'
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+      def appcompat_version = "1.7.0"
+
+  implementation "androidx.appcompat:appcompat:$appcompat_version"
+    // For loading and tinting drawables on older versions of the platform
+  implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
 }
 flutter {
     source = "../.."

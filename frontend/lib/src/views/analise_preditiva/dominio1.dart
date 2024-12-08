@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/analise_preditiva_controller.dart';
-import 'package:memorycare/src/views/analise_preditiva/dominio2.dart';
 
 class Dominio1 extends StatelessWidget {
   final analisePreditivaController = Get.put(AnalisePreditivaController());
 
   // Controle das respostas (booleano, se acertou ou não)
   final List<RxBool> respostas =
-      List.generate(5, (_) => false.obs); // 5 perguntas
+      List.generate(5, (_) => false.obs);
+
+  Dominio1({super.key}); // 5 perguntas
 
   @override
   Widget build(BuildContext context) {
