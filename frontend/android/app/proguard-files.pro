@@ -15,5 +15,9 @@
 -keep class io.flutter.util.** { *; }
 -keep class io.flutter.view.** { *; }
 
+-keep class com.transistorsoft.** { *; }
+-keepclassmembers class com.transistorsoft.** { *; }
+-dontwarn com.transistorsoft.**
+
 # Evita remoção de anotações
 -keepattributes *Annotation*

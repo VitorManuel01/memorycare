@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:memorycare/src/views/analise_preditiva/historico.dart';
 import 'package:memorycare/src/views/geolocalizacao/mapa.dart';
 import 'package:memorycare/src/views/perfil/PerfilCuidadorSecundario.dart';
 import 'package:memorycare/src/views/perfil/PerfilDependente.dart';
@@ -55,7 +56,7 @@ class HomePage extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 16),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -89,14 +90,14 @@ class HomePage extends StatelessWidget {
                       'page': ()=> const PerfilCuidadorSecundario(), // Ajuste conforme necessário
                     },
                                         {
-                      'name': 'Geolocalização',
-                      'icon': Icons.person_pin,
+                      'name': 'Áreas Seguras',
+                      'icon': Icons.map,
                       'page': ()=> const Mapa(), // Ajuste conforme necessário
                     },
                                         {
-                      'name': 'Cuidadores Secundários',
-                      'icon': Icons.person_pin,
-                      'page': ()=> const PerfilCuidadorSecundario(), // Ajuste conforme necessário
+                      'name': 'Histórico de Testes',
+                      'icon': Icons.history,
+                      'page': ()=> const HistoricoPage(), // Ajuste conforme necessário
                     },
                   ];
 

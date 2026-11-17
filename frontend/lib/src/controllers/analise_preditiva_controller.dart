@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:memorycare/src/models/analise_preditiva.dart';
 import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 class AnalisePreditivaController extends GetxController {
   var pontuacaoTotal = 0.obs;
@@ -65,5 +67,13 @@ class AnalisePreditivaController extends GetxController {
 
   Future<void> salvarResultados(int pontos, String resultado) async {
     await analiseRepo.salvarResultadoTeste(pontos, resultado);
+  }
+
+  Future<Stream<List<AnalisePreditiva>>> listaDeTestesFuture() {
+    return analiseRepo.getTestes();
+  }
+
+  Stream<List<AnalisePreditiva>> listaDeTestes() {
+    return listaDeTestesFuture().asStream().flatMap((stream) => stream);
   }
 }

@@ -19,13 +19,23 @@ class Tarefas extends StatelessWidget {
     var height = mediaQuery.size.height;
     var brightness = mediaQuery.platformBrightness;
     final isDarkMode = brightness == Brightness.dark;
+    
+    String _getFormattedTime() {
+      final now = TimeOfDay.now();
+      final hour = now.hour
+          .toString()
+          .padLeft(2, '0'); // Garante que a hora tenha 2 dígitos
+      final minute = now.minute
+          .toString()
+          .padLeft(2, '0'); // Garante que o minuto tenha 2 dígitos
+      return "$hour:$minute";
+    }
 
-    RxString horario =
-        RxString("${TimeOfDay.now().hour}:${TimeOfDay.now().minute}");
+    RxString horario = RxString(_getFormattedTime());
 
     void atualizarHora() {
       Timer.periodic(const Duration(seconds: 1), (timer) {
-        horario.value = "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
+        horario.value = _getFormattedTime();
       });
     }
 
@@ -113,13 +123,11 @@ class Tarefas extends StatelessWidget {
                               final tarefas = snapshot.data!;
                               return ListView.builder(
                                 itemCount: tarefas.length,
-                                padding: const EdgeInsets.only(
-                                    bottom: 20),
+                                padding: const EdgeInsets.only(bottom: 20),
                                 itemBuilder: (context, index) {
                                   final tarefa = tarefas[index];
                                   return Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 5), 
+                                    padding: const EdgeInsets.only(bottom: 5),
                                     child: ButaoDeTarefas(
                                       taskName: tarefa.titulo,
                                       onPress: () {

@@ -90,7 +90,8 @@ class AnalisePreditivaRepository extends GetxController {
     ); // Merge para não sobrescrever outros dados existentes
   }
 
-  Future<void> salvarResultadoTeste( int pontuacaoTotal, String resultado) async {
+  Future<void> salvarResultadoTeste(
+      int pontuacaoTotal, String resultado) async {
     String? uid = await obterUidUsuario();
 
     // Cria uma instância de AnalisePreditiva
@@ -164,28 +165,58 @@ class AnalisePreditivaRepository extends GetxController {
   }
 
   Future<bool> verificarDocumentoExistente() async {
-  String? uid = await obterUidUsuario();
+    String? uid = await obterUidUsuario();
 
-  // Verifica se o usuário está autenticado
-  if (uid == null) {
-    return false;
+    // Verifica se o usuário está autenticado
+    if (uid == null) {
+      return false;
+    }
+
+    String? idDependente = await obterIdDependente(uid);
+    if (idDependente == null) {
+      throw Exception("Dependente não encontrado para o cuidador");
+    }
+
+    // Obtém o ID da semana atual
+    String semanaId = gerarIdSemana();
+
+    // Verifica se o documento já existe no Firestore
+    final doc = await _db
+        .collection(
+            'cuidadores/$uid/dependente/$idDependente/analise_preditiva')
+        .doc(semanaId)
+        .get();
+
+    // Retorna true se o documento já existe
+    return doc.exists;
   }
 
-  String? idDependente = await obterIdDependente(uid);
-  if (idDependente == null) {
-    throw Exception("Dependente não encontrado para o cuidador");
+    Future<Stream<List<AnalisePreditiva>>> getTestes() async {
+    String? uid = await obterUidUsuario();
+
+    // Verifica se o usuário está autenticado
+    if (uid == null) {
+      Get.snackbar(
+        "Erro",
+        "Usuário não autenticado.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
+
+    String? idDependente = await obterIdDependente(uid!);
+    if (idDependente == null) {
+      throw Exception("Dependente não encontrado para o cuidador");
+    }
+
+    final stream = _db
+        .collection('cuidadores/$uid/dependente/$idDependente/analise_preditiva')
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => AnalisePreditiva.fromFirestore(doc)).toList());
+
+    return Future.value(stream);
   }
 
-  // Obtém o ID da semana atual
-  String semanaId = gerarIdSemana();
-
-  // Verifica se o documento já existe no Firestore
-  final doc = await _db
-      .collection('cuidadores/$uid/dependente/$idDependente/analise_preditiva')
-      .doc(semanaId)
-      .get();
-
-  // Retorna true se o documento já existe
-  return doc.exists;
-}
 }

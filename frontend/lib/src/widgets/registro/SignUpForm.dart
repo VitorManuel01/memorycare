@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/controllers/sign_up_controller.dart';
+import 'package:memorycare/src/views/registro/SignUpPageComplimentary.dart';
 
 // import 'package:memorycare/src/views/esqueci_a_senha/esqueci_a_senha_otp/tela_otp.dart';
 
@@ -30,32 +31,32 @@ class SignUpForm extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
-            Obx(
-              () => TextFormField(
-                controller: controller.senha,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  labelText: "Senha",
-                  hintText: "Senha",
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: controller.toggleObscureText,
-                    icon: Icon(
-                      controller.obscureText.value
-                          ? Icons.remove_red_eye_sharp
-                          : Icons.visibility_off,
+              Obx(
+                () => TextFormField(
+                  controller: controller.senha,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    labelText: "Senha",
+                    hintText: "Senha",
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      onPressed: controller.toggleObscureText,
+                      icon: Icon(
+                        controller.obscureText.value
+                            ? Icons.remove_red_eye_sharp
+                            : Icons.visibility_off,
+                      ),
                     ),
                   ),
+                  obscureText: controller.obscureText.value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira a senha';
+                    }
+                    return null;
+                  },
                 ),
-                obscureText: controller.obscureText.value,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira a senha';
-                  }
-                  return null;
-                },
               ),
-            ),
               const SizedBox(
                 height: 10.0,
               ),
@@ -68,6 +69,7 @@ class SignUpForm extends StatelessWidget {
                           await SignUpController.instance.registrarUsuario(
                               controller.email.text.trim(),
                               controller.senha.text.trim());
+                          Get.offAll(() => const SignUpPageComplimentary());
                         }
                       },
                       child: const Text("CONTINUAR")))

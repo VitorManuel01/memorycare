@@ -3,12 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memorycare/src/models/dependente.dart';
+import 'package:memorycare/src/repository/analise_preditiva/analise_preditiva_repository.dart';
+import 'package:memorycare/src/views/analise_preditiva/paginaTransicao.dart';
 import 'package:memorycare/src/views/home/HomePage.dart';
 
 class DependenteRepository extends GetxController {
   static DependenteRepository get instance => Get.find();
 
   final _db = FirebaseFirestore.instance;
+    AnalisePreditivaRepository analiseRepo =
+      Get.put(AnalisePreditivaRepository());
 
   Future<String?> obterUidUsuario() async {
     User? user = FirebaseAuth.instance.currentUser;
@@ -54,7 +58,7 @@ class DependenteRepository extends GetxController {
       await _db
           .collection("cuidadores/$uid/dependente")
           .add(dependente.toJson())
-          .whenComplete(() {
+          .whenComplete(() async {
         // Exibe mensagem de sucesso e redireciona para a HomePage
         Get.snackbar(
           "Sucesso",
@@ -63,7 +67,17 @@ class DependenteRepository extends GetxController {
           backgroundColor: Colors.green.withOpacity(0.1),
           colorText: Colors.green,
         );
-        Get.offAll(() => const HomePage());
+
+ 
+        final existeDoc = await analiseRepo.verificarDocumentoExistente();
+        final status = await analiseRepo.verificarStatusTeste();
+
+          if (existeDoc && status) {
+            Get.offAll(() => const HomePage());
+          } else {
+            Get.offAll(() => const PaginaTransicaoAnalise());
+          }
+
       });
     } catch (error, stackTrace) {
       // Exibe erro caso ocorra uma falha na operação

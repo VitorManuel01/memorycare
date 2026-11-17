@@ -24,12 +24,15 @@ class PaginaTransicaoAnalise extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                // Navega para a página Dominio1 e remove todas as páginas anteriores da pilha
-                Get.offAll(() => Dominio1());
-              },
-              child: const Text('Continuar'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navega para a página Dominio1 e remove todas as páginas anteriores da pilha
+                  Get.offAll(() => Dominio1());
+                },
+                child: const Text('Continuar'),
+              ),
             ),
           ],
         ),

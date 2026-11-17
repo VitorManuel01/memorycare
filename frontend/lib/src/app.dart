@@ -29,7 +29,6 @@ class MemoryCareApp extends StatelessWidget {
       theme: isDarkMode
           ? TAppTheme.darkTheme
           : TAppTheme.lightTheme, // Use o tema claro
-      home: const HomePage(),
       getPages: [
         GetPage(name: '/', page: () => const HomePage()),
         GetPage(name: '/dominio2', page: () => Dominio2()),

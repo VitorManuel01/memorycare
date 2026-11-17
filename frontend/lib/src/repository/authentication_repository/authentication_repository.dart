@@ -54,9 +54,7 @@ class AuthenticationRepository extends GetxController {
           } else {
             Get.offAll(() => const PaginaTransicaoAnalise());
           }
-        } else {
-          Get.offAll(() => const SignUpPageComplimentary());
-        }
+        } 
       } catch (e) {
         print("Erro ao determinar redirecionamento: $e");
         return;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:memorycare/src/controllers/areas_controller.dart';
 import 'package:memorycare/src/models/area.dart';
 import 'package:memorycare/src/services/geofencingService.dart';
@@ -31,7 +32,7 @@ class Mapa extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Erro: ${snapshot.error}'));
-          } 
+          }
 
           final areas = snapshot.data;
           for (var area in areas!) {
@@ -45,8 +46,9 @@ class Mapa extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Configurar Área de Geofencing'),
               actions: [
-                IconButton(onPressed: ()=> (Get.offAll(()=> const HomePage())), icon: const Icon(Icons.arrow_back))
-                
+                IconButton(
+                    onPressed: () => (Get.offAll(() => const HomePage())),
+                    icon: const Icon(Icons.arrow_back))
               ],
             ),
             body: Obx(() {
@@ -68,8 +70,7 @@ class Mapa extends StatelessWidget {
                         Timer.periodic(const Duration(seconds: 10), (timer) {
                           controller
                               .obterLocalizacaoAtual(); // Obtém a localização quando o controlador é iniciado a cada segundo
-                          controller.mapController
-                              .move(controller.centro.value as LatLng, 13);
+
                         });
                       }),
                   children: [
@@ -106,12 +107,33 @@ class Mapa extends StatelessWidget {
                 );
               }
             }),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                print("click");
-                Get.to(() => AllGeoFences());
-              },
-              child: const Icon(Icons.pin_drop_sharp),
+            floatingActionButton: Stack(
+              children: [
+                Positioned(
+                  bottom: 80,
+                  right: 10, 
+                  child: FloatingActionButton(
+                    heroTag: "AllAreas",
+                    onPressed: () async {
+                      print("click");
+                      Get.to(() => AllGeoFences());
+                    },
+                    child: const Icon(Icons.pin_drop_sharp),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10, 
+                  right: 10, 
+                  child: FloatingActionButton(
+                    heroTag: "Centralizar",
+                    onPressed: () {
+                          controller.mapController
+                              .move(controller.centro.value as LatLng, 13);
+                    },
+                    child: const Icon(LineAwesomeIcons.crosshairs_solid),
+                  ),
+                ),
+              ],
             ),
           );
         });

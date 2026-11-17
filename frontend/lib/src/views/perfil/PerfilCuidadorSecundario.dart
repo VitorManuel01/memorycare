@@ -31,26 +31,26 @@ class PerfilCuidadorSecundario extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Funcionalidade futura
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 32,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  "CONVIDAR",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
+              // const SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     // Funcionalidade futura
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: Colors.green,
+              //     padding: const EdgeInsets.symmetric(
+              //       vertical: 12,
+              //       horizontal: 32,
+              //     ),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //     ),
+              //   ),
+              //   child: const Text(
+              //     "CONVIDAR",
+              //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
               const SizedBox(height: 30),
               Center(
                 child: IconButton(

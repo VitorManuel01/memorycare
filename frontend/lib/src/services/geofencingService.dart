@@ -9,6 +9,7 @@ class GeofencingService {
   GeofenceNotificationService notificationService =
       GeofenceNotificationService();
 
+  @pragma('vm:entry-point')
   void configureBackgroundGeolocation() {
     bg.BackgroundGeolocation.onGeofence((bg.GeofenceEvent event) {
       if (event.action == 'ENTER') {
@@ -39,6 +40,7 @@ class GeofencingService {
     });
   }
 
+  @pragma('vm:entry-point')
   void configurarGeofence(Area area) {
     bg.BackgroundGeolocation.addGeofence(bg.Geofence(
       identifier: area.nome, // Nome da área como identificador
@@ -53,6 +55,7 @@ class GeofencingService {
     print("Adicionando Area para Geofence");
   }
 
+  @pragma('vm:entry-point')
   void sincronizarGeofences(Area area) async {
     List<Geofence> ativos = await BackgroundGeolocation.geofences;
     var areas = <Area>[];
@@ -76,6 +79,7 @@ class GeofencingService {
     });
   }
 
+  @pragma('vm:entry-point')
   void removerGeofence(String identifier) {
     bg.BackgroundGeolocation.removeGeofence(identifier).then((_) {
       print('Geofence $identifier removido com sucesso.');

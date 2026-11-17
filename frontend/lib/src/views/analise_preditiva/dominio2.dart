@@ -6,8 +6,7 @@ class Dominio2 extends StatelessWidget {
   final analisePreditivaController = Get.put(AnalisePreditivaController());
 
   // Controle das respostas (booleano, se acertou ou não)
-  final List<RxBool> respostas =
-      List.generate(5, (_) => false.obs);
+  final List<RxBool> respostas = List.generate(5, (_) => false.obs);
 
   Dominio2({super.key}); // 5 perguntas
 
@@ -16,67 +15,25 @@ class Dominio2 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Orientação Espacial"),
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+        elevation: 4,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text(
-                    "Onde estamos agora (exemplo: casa, hospital, consultório)?"),
-                value: respostas[0].value,
-                onChanged: (bool? isChecked) {
-                  respostas[0].value = isChecked ?? false;
-                },
-              );
-            }),
-
-
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Em que cidade estamos?"),
-                value: respostas[1].value,
-                onChanged: (bool? isChecked) {
-                  respostas[1].value = isChecked ?? false;
-                },
-              );
-            }),
-
-
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Em que estado estamos?"),
-                value: respostas[2].value,
-                onChanged: (bool? isChecked) {
-                  respostas[2].value = isChecked ?? false;
-                },
-              );
-            }),
-
-
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Qual é o nome do local onde estamos agora?"),
-                value: respostas[3].value,
-                onChanged: (bool? isChecked) {
-                  respostas[3].value = isChecked ?? false;
-                },
-              );
-            }),
-
-
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Em que andar ou pavimento estamos?"),
-                value: respostas[4].value,
-                onChanged: (bool? isChecked) {
-                  respostas[4].value = isChecked ?? false;
-                },
-              );
-            }),
-
+            Text(
+              "Responda as perguntas abaixo:",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.teal,
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ..._buildCheckboxes(context),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -89,9 +46,53 @@ class Dominio2 extends StatelessWidget {
 
                 Get.toNamed('/dominio3');
               },
-              child: const Text("Próximo"),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                "Próximo",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildCheckboxes(BuildContext context) {
+    final perguntas = [
+      "Onde estamos agora (exemplo: casa, hospital, consultório)?",
+      "Em que cidade estamos?",
+      "Em que estado estamos?",
+      "Qual é o nome do local onde estamos agora?",
+      "Em que andar ou pavimento estamos?"
+    ];
+
+    return List<Widget>.generate(
+      perguntas.length,
+      (index) => Obx(
+        () => Card(
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: CheckboxListTile(
+            title: Text(
+              perguntas[index],
+              style: Theme.of(context).textTheme.titleMedium
+            ),
+            activeColor: Colors.teal,
+            value: respostas[index].value,
+            onChanged: (bool? isChecked) {
+              respostas[index].value = isChecked ?? false;
+            },
+          ),
         ),
       ),
     );

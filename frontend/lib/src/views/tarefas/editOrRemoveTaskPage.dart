@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:memorycare/src/views/tarefas/Tarefas.dart';
-
 import '../../controllers/tarefas_controller.dart';
 import '../../models/StatusTarefa.dart';
 import '../../models/tarefa.dart';
@@ -15,8 +14,7 @@ class DataHoraController extends GetxController {
 class EditorRemoveTaskPage extends StatelessWidget {
   final String tarefaId;
   final DataHoraController dataHoraController = Get.put(DataHoraController());
-  final TarefasController registroTarefasController =
-      Get.put(TarefasController());
+  final TarefasController registroTarefasController = Get.put(TarefasController());
 
   EditorRemoveTaskPage({super.key, required this.tarefaId});
 
@@ -28,8 +26,7 @@ class EditorRemoveTaskPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
-              child: Text("Erro ao carregar tarefa: ${snapshot.error}"));
+          return Center(child: Text("Erro ao carregar tarefa: ${snapshot.error}"));
         } else if (!snapshot.hasData) {
           return const Center(child: Text("Tarefa não encontrada"));
         } else {
@@ -37,10 +34,8 @@ class EditorRemoveTaskPage extends StatelessWidget {
           Tarefa tarefaEscolhida = snapshot.data!;
 
           // Variáveis locais para os dados da tarefa
-          final TextEditingController tituloController =
-              TextEditingController(text: tarefaEscolhida.titulo);
-          final TextEditingController descricaoController =
-              TextEditingController(text: tarefaEscolhida.descricao);
+          final TextEditingController tituloController = TextEditingController(text: tarefaEscolhida.titulo);
+          final TextEditingController descricaoController = TextEditingController(text: tarefaEscolhida.descricao);
           StatusTarefa statusSelecionado = tarefaEscolhida.status;
           Rx<bool> tarefaSeRepete = Rx<bool>(tarefaEscolhida.tarefaSeRepete);
 
@@ -48,41 +43,56 @@ class EditorRemoveTaskPage extends StatelessWidget {
 
           // Atualiza a variável reativa fora do ciclo de construção
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            dataHoraController.tempo.value =
-                tarefaEscolhida.diaEhorario.toDate().toString();
+            dataHoraController.tempo.value = tarefaEscolhida.diaEhorario.toDate().toString();
           });
 
-          final Rx<bool> tarefaConcluida =
-              Rx<bool>(tarefaEscolhida.status == StatusTarefa.concluida);
+          final Rx<bool> tarefaConcluida = Rx<bool>(tarefaEscolhida.status == StatusTarefa.concluida);
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Tarefa'),
+              title: const Text('Editar Tarefa'),
               backgroundColor: Colors.green,
             ),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Texto de título
                   const SizedBox(height: 20),
 
-                  // Campo para o título da tarefa
-                  TextField(
-                    controller: tituloController,
-                    decoration:
-                        const InputDecoration(labelText: 'Título da Tarefa'),
+                  // Título
+                  const Center(
+                    child: Text(
+                      'Editar ou Excluir Tarefa',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 16),
+
+                  // Campo título
+                  TextField(
+                    controller: tituloController,
+                    decoration: const InputDecoration(
+                      labelText: 'Título da Tarefa',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Campo descrição
                   TextField(
                     controller: descricaoController,
-                    decoration: const InputDecoration(labelText: 'Descrição'),
+                    decoration: const InputDecoration(
+                      labelText: 'Descrição',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
                     maxLines: 7,
                   ),
                   const SizedBox(height: 16),
 
-                  // Botão para selecionar data e hora
+                  // Botão de selecionar data e hora
                   MaterialButton(
                     onPressed: () async {
                       DateTime? dataSelecionada = await showDatePicker(
@@ -113,7 +123,7 @@ class EditorRemoveTaskPage extends StatelessWidget {
                         dataHoraController.tempo.value =
                             "${dateTime.day}/${dateTime.month}/${dateTime.year} - ${dateTime.hour}:${dateTime.minute}";
                       }
-                                        },
+                    },
                     child: Row(
                       children: [
                         const Icon(
@@ -122,47 +132,45 @@ class EditorRemoveTaskPage extends StatelessWidget {
                           size: 40,
                         ),
                         const SizedBox(width: 10),
-                        Obx(() => Text(dataHoraController.tempo.value)),
+                        Obx(() => Text(
+                          dataHoraController.tempo.value,
+                          style: const TextStyle(fontSize: 16, color: Colors.black54),
+                        )),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
 
-                  // Checkbox para repetir a tarefa
+                  // Checkbox para repetir tarefa
                   Row(
                     children: [
                       Obx(() => Checkbox(
-                            value: tarefaSeRepete.value,
-                            onChanged: (value) {
-                              tarefaSeRepete.value = value!;
-                            },
-                          )),
+                        value: tarefaSeRepete.value,
+                        onChanged: (value) {
+                          tarefaSeRepete.value = value!;
+                        },
+                      )),
                       const Text('Repetir tarefa'),
                     ],
                   ),
                   const SizedBox(height: 16),
 
-                  // Checkbox para marcar a tarefa como concluída
+                  // Checkbox para marcar tarefa como concluída
                   Row(
                     children: [
                       Obx(() => Checkbox(
-                            value: tarefaConcluida.value,
-                            onChanged: (value) {
-                              tarefaConcluida.value = value!;
-
-                              if (value == true) {
-                                statusSelecionado = StatusTarefa.concluida;
-                              } else {
-                                statusSelecionado = StatusTarefa.pendente;
-                              }
-                            },
-                          )),
+                        value: tarefaConcluida.value,
+                        onChanged: (value) {
+                          tarefaConcluida.value = value!;
+                          statusSelecionado = value ? StatusTarefa.concluida : StatusTarefa.pendente;
+                        },
+                      )),
                       const Text('Marcar como concluída'),
                     ],
                   ),
                   const SizedBox(height: 16),
 
-                  // Botão para Editar a tarefa
+                  // Botões para Editar e Excluir tarefa
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -170,9 +178,8 @@ class EditorRemoveTaskPage extends StatelessWidget {
                         width: 160,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (tituloController.text.isNotEmpty &&
-                                diaEhorario != null) {
-                              // Criação da tarefa
+                            if (tituloController.text.isNotEmpty && diaEhorario != null) {
+                              // Criação ou atualização da tarefa
                               Tarefa tarefa = Tarefa(
                                 titulo: tituloController.text,
                                 descricao: descricaoController.text,
@@ -182,32 +189,29 @@ class EditorRemoveTaskPage extends StatelessWidget {
                                 criadoEm: Timestamp.now(),
                               );
 
-                              // Envia a tarefa para o controller salvar
-                              registroTarefasController.editarTarefa(
-                                  tarefa, tarefaId);
+                              // Atualiza a tarefa no banco de dados
+                              registroTarefasController.editarTarefa(tarefa, tarefaId);
 
-                              // Exibe uma mensagem de sucesso
-
-                              // Navega para a página inicial ou outra página desejada
+                              // Exibe uma mensagem de sucesso e navega para a lista de tarefas
+                              Get.snackbar('Sucesso', 'Tarefa editada com sucesso!');
                               Get.to(() => const Tarefas());
                             } else {
-                              Get.snackbar("Erro",
-                                  "Preencha todos os campos corretamente");
+                              Get.snackbar("Erro", "Preencha todos os campos corretamente");
                             }
                           },
                           child: const Text('SALVAR'),
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
+                      const SizedBox(width: 20),
                       SizedBox(
                         width: 160,
                         child: ElevatedButton(
                           onPressed: () {
+                            // Exclui a tarefa
                             registroTarefasController.excluirTarefa(tarefaId);
                             Get.to(() => const Tarefas());
                           },
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                           child: const Text('EXCLUIR'),
                         ),
                       ),

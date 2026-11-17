@@ -9,21 +9,17 @@ import '../../controllers/tarefas_controller.dart';
 import '../../models/StatusTarefa.dart';
 
 class DataHoraController2 extends GetxController {
-  
   RxString tempo = "Selecionar horário".obs;
 }
 
-/// Página para adicionar novas tarefas.
 class AddTaskPage extends StatelessWidget {
   const AddTaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final DataHoraController2 dataHoraController = Get.put(DataHoraController2());
-    final TarefasController registroTarefasController =
-        Get.put(TarefasController());
+    final TarefasController registroTarefasController = Get.put(TarefasController());
 
-    // Variáveis locais para os dados da tarefa
     final TextEditingController tituloController = TextEditingController();
     final TextEditingController descricaoController = TextEditingController();
     final Rx<StatusTarefa?> statusSelecionado = Rx<StatusTarefa?>(null);
@@ -34,30 +30,48 @@ class AddTaskPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Adicionar Tarefa'),
         backgroundColor: Colors.green,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
-            // Texto de título
+            // Título da página
             const Center(
               child: Text(
-                'Página para adicionar novas tarefas',
-                style: TextStyle(fontSize: 18),
+                'Adicionar Nova Tarefa',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 16),
 
-            // Campo para o título da tarefa
+            // Campo de título
             TextField(
               controller: tituloController,
-              decoration: const InputDecoration(labelText: 'Título da Tarefa'),
+              decoration: InputDecoration(
+                labelText: 'Título da Tarefa',
+                labelStyle: const TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Colors.green),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              ),
             ),
             const SizedBox(height: 16),
+
+            // Campo de descrição
             TextField(
               controller: descricaoController,
-              decoration: const InputDecoration(labelText: 'Descrição'),
+              decoration: InputDecoration(
+                labelText: 'Descrição',
+                labelStyle: const TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Colors.green),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              ),
               maxLines: 7,
             ),
             const SizedBox(height: 16),
@@ -91,18 +105,24 @@ class AddTaskPage extends StatelessWidget {
 
                   // Atualiza a variável reativa com o horário selecionado
                   dataHoraController.tempo.value =
-                      "${dateTime.day}/${dateTime.month}/${dateTime.year} - ${dateTime.hour}:${dateTime.minute}";
+                      "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} - ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
                 }
-                            },
+              },
+              color: Colors.greenAccent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Row(
                 children: [
                   const Icon(
                     LineAwesomeIcons.clock,
-                    color: Colors.greenAccent,
-                    size: 40,
+                    color: Colors.white,
+                    size: 30,
                   ),
                   const SizedBox(width: 10),
-                  Obx(() => Text(dataHoraController.tempo.value)),
+                  Obx(() => Text(
+                    dataHoraController.tempo.value,
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                  )),
                 ],
               ),
             ),
@@ -112,12 +132,13 @@ class AddTaskPage extends StatelessWidget {
             Row(
               children: [
                 Obx(() => Checkbox(
-                      value: tarefaSeRepete.value,
-                      onChanged: (value) {
-                        tarefaSeRepete.value = value!;
-                      },
-                    )),
-                const Text('Repetir tarefa'),
+                  value: tarefaSeRepete.value,
+                  onChanged: (value) {
+                    tarefaSeRepete.value = value!;
+                  },
+                  activeColor: Colors.green,
+                )),
+                const Text('Repetir tarefa', style: TextStyle(fontSize: 16)),
               ],
             ),
             const SizedBox(height: 16),
@@ -128,11 +149,10 @@ class AddTaskPage extends StatelessWidget {
                 if (tituloController.text.isNotEmpty && diaEhorario != null) {
                   // Criação da tarefa
                   Tarefa tarefa = Tarefa(
-                    //  idDependente: 'id_dependente', // Substitua pelo ID real do dependente
                     titulo: tituloController.text,
                     descricao: descricaoController.text,
                     diaEhorario: diaEhorario!,
-                    status: StatusTarefa.pendente, // Ajuste conforme necessário
+                    status: StatusTarefa.pendente,
                     tarefaSeRepete: tarefaSeRepete.value,
                     criadoEm: Timestamp.now(),
                   );
@@ -140,13 +160,21 @@ class AddTaskPage extends StatelessWidget {
                   // Envia a tarefa para o controller salvar
                   registroTarefasController.createTarefa(tarefa);
 
-                  // Navega para a página inicial ou outra página desejada
+                  // Navega para a página de tarefas
                   Get.to(() => const Tarefas());
                 } else {
-                  Get.snackbar("Erro", "Preencha todos os campos corretamente");
+                  Get.snackbar("Erro", "Preencha todos os campos corretamente", backgroundColor: Colors.red, colorText: Colors.white);
                 }
               },
-              child: const Text('Salvar Tarefa'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text(
+                'Salvar Tarefa',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
             ),
           ],
         ),

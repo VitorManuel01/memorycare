@@ -13,10 +13,11 @@ class GeofenceNotificationService {
   static final onNotifications = BehaviorSubject<String?>();
   static final analisePredRepo = Get.put(AnalisePreditivaRepository());
 
-  static int gerarIdUnico() {
-    return DateTime.now().millisecondsSinceEpoch.remainder(100000);
-  }
-
+  // static int gerarIdUnico() {
+  //   return DateTime.now().millisecondsSinceEpoch.remainder(100000);
+  // }
+  
+  @pragma('vm:entry-point')
   static Future<void> init() async {
     tz.initializeTimeZones();
     final location = tz.getLocation('America/Sao_Paulo');
@@ -56,7 +57,7 @@ class GeofenceNotificationService {
   // }
 
 
-
+  @pragma('vm:entry-point')
   Future<void> mostrarNotificacao(String titulo, String corpo) async {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(

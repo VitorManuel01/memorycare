@@ -6,76 +6,40 @@ class Dominio1 extends StatelessWidget {
   final analisePreditivaController = Get.put(AnalisePreditivaController());
 
   // Controle das respostas (booleano, se acertou ou não)
-  final List<RxBool> respostas =
-      List.generate(5, (_) => false.obs);
+  final List<RxBool> respostas = List.generate(5, (_) => false.obs);
 
   Dominio1({super.key}); // 5 perguntas
 
   @override
   Widget build(BuildContext context) {
+    var mediaQuerry = MediaQuery.of(context);
+
+    var brightness = mediaQuerry.platformBrightness;
+    final isDarkMode = brightness == Brightness.dark;
+    final backgroundColor =
+        isDarkMode ? const Color(0XFF272727) : Colors.greenAccent;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Orientação Temporal"),
+        centerTitle: true,
+        backgroundColor: backgroundColor,
+        elevation: 4,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Qual é o ano atual?"),
-                value: respostas[0].value,
-                onChanged: (bool? isChecked) {
-                  respostas[0].value = isChecked ?? false;
-                },
-              );
-            }),
-
-            
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Qual é o mês atual?"),
-                value: respostas[1].value,
-                onChanged: (bool? isChecked) {
-                  respostas[1].value = isChecked ?? false;
-                },
-              );
-            }),
-
-            
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Qual é o dia da semana?"),
-                value: respostas[2].value,
-                onChanged: (bool? isChecked) {
-                  respostas[2].value = isChecked ?? false;
-                },
-              );
-            }),
-
-            
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Qual é o dia do mês?"),
-                value: respostas[3].value,
-                onChanged: (bool? isChecked) {
-                  respostas[3].value = isChecked ?? false;
-                },
-              );
-            }),
-
-            
-            Obx(() {
-              return CheckboxListTile(
-                title: const Text("Qual é a estação do ano?"),
-                value: respostas[4].value,
-                onChanged: (bool? isChecked) {
-                  respostas[4].value = isChecked ?? false;
-                },
-              );
-            }),
-
+            Text(
+              "Responda as perguntas abaixo:",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.teal,
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ..._buildCheckboxes(context),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -88,9 +52,53 @@ class Dominio1 extends StatelessWidget {
 
                 Get.toNamed('/dominio2');
               },
-              child: const Text("Próximo"),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                "Próximo",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildCheckboxes(BuildContext context) {
+    final perguntas = [
+      "Qual é o ano atual?",
+      "Qual é o mês atual?",
+      "Qual é o dia da semana?",
+      "Qual é o dia do mês?",
+      "Qual é a estação do ano?"
+    ];
+
+    return List<Widget>.generate(
+      perguntas.length,
+      (index) => Obx(
+        () => Card(
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: CheckboxListTile(
+            title: Text(
+              perguntas[index],
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            activeColor: Colors.teal,
+            value: respostas[index].value,
+            onChanged: (bool? isChecked) {
+              respostas[index].value = isChecked ?? false;
+            },
+          ),
         ),
       ),
     );
